@@ -1,601 +1,988 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ma collection de films</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ma collection de films</title>
 
-<style>
-*{box-sizing:border-box}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#111;
-  color:#f5f5f5;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-header{
-  padding:28px 18px 18px;
-  position:sticky;
-  top:0;
-  background:#111e;
-  backdrop-filter:blur(12px);
-  z-index:5;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+    }
 
-h1{
-  margin:0 0 6px;
-  font-size:30px;
-}
+    header {
+      background: #1b1b1b;
+      padding: 25px 20px;
+      text-align: center;
+      border-bottom: 1px solid #333;
+    }
 
-.sub{
-  color:#aaa;
-  margin-bottom:18px;
-}
+    header h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
 
-.controls{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-}
+    header p {
+      margin: 0;
+      color: #aaa;
+    }
 
-.controls input,
-.controls select,
-.controls button{
-  border:1px solid #333;
-  background:#1c1c1c;
-  color:#fff;
-  border-radius:10px;
-  padding:11px 12px;
-  font-size:14px;
-}
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
 
-.controls input{
-  flex:1;
-  min-width:180px;
-}
+    .panel {
+      background: #1b1b1b;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
 
-.controls button{
-  cursor:pointer;
-}
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
 
-.controls button:hover{
-  background:#292929;
-}
+    input,
+    select,
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      font-size: 15px;
+    }
 
-main{
-  padding:8px 18px 40px;
-}
+    input,
+    select {
+      background: #252525;
+      color: white;
+    }
 
-.count{
-  color:#999;
-  margin:12px 0 18px;
-}
+    button {
+      background: #e50914;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
-  gap:18px;
-}
+    button:hover {
+      background: #b80710;
+    }
 
-.card{
-  background:#1a1a1a;
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 4px 16px #0005;
-}
+    .secondary {
+      background: #333;
+    }
 
-.cover{
-  width:100%;
-  aspect-ratio:2/3;
-  object-fit:cover;
-  background:#292929;
-  display:block;
-}
+    .secondary:hover {
+      background: #444;
+    }
 
-.info{
-  padding:10px;
-}
+    .danger {
+      background: #7d0000;
+    }
 
-.title{
-  font-weight:700;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
 
-.meta{
-  font-size:12px;
-  color:#999;
-  margin-top:5px;
-  line-height:1.6;
-}
+    .actions button {
+      width: auto;
+    }
 
-.empty{
-  padding:40px;
-  text-align:center;
-  color:#999;
-  grid-column:1/-1;
-}
+    .search {
+      margin-bottom: 15px;
+    }
 
-dialog{
-  border:0;
-  border-radius:16px;
-  background:#1b1b1b;
-  color:#fff;
-  width:min(430px,92vw);
-  padding:0;
-  box-shadow:0 20px 60px #0009;
-}
+    .status {
+      margin-top: 10px;
+      color: #aaa;
+      min-height: 20px;
+    }
 
-dialog::backdrop{
-  background:#000b;
-}
+    .films {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
 
-.form{
-  padding:20px;
-}
+    .film {
+      background: #1b1b1b;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #292929;
+    }
 
-.form h2{
-  margin-top:0;
-}
+    .film-cover {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      background: #292929;
+      display: block;
+    }
 
-.form label{
-  display:block;
-  color:#aaa;
-  font-size:13px;
-  margin:12px 0 5px;
-}
+    .no-cover {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      background: #292929;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      text-align: center;
+      padding: 20px;
+    }
 
-.form input,
-.form select{
-  width:100%;
-  padding:11px;
-  border-radius:9px;
-  border:1px solid #444;
-  background:#111;
-  color:#fff;
-}
+    .film-info {
+      padding: 14px;
+    }
 
-.actions{
-  display:flex;
-  gap:8px;
-  justify-content:flex-end;
-  margin-top:18px;
-}
+    .film-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
 
-.actions button{
-  padding:10px 14px;
-  border:0;
-  border-radius:9px;
-  cursor:pointer;
-}
+    .film-details {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.6;
+    }
 
-.primary{
-  background:#fff;
-  color:#111;
-}
-</style>
+    .film-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .film-actions button {
+      padding: 8px;
+      font-size: 13px;
+    }
+
+    .count {
+      color: #aaa;
+      margin-bottom: 15px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 25px;
+      }
+
+      .container {
+        padding: 12px;
+      }
+
+      .films {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .film-title {
+        font-size: 15px;
+      }
+
+      .film-info {
+        padding: 10px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-
-<h1>🎬 Ma collection</h1>
-
-<div class="sub">
-Mon catalogue personnel de films
-</div>
-
-<div class="controls">
-
-<input
-  id="search"
-  placeholder="🔎 Rechercher un film…"
->
-
-<select id="format">
-  <option value="">Tous les formats</option>
-  <option>DVD</option>
-  <option>Blu-ray</option>
-  <option>4K UHD</option>
-  <option>VHS</option>
-</select>
-
-<select id="vf">
-  <option value="">VF : tous</option>
-  <option value="oui">VF</option>
-  <option value="non">Sans VF</option>
-</select>
-
-<button onclick="openAdd()">
-  ＋ Ajouter un film
-</button>
-
-<button onclick="exportData()">
-  💾 Exporter
-</button>
-
-</div>
-
+  <h1>🎬 Ma collection de films</h1>
+  <p>Ma collection personnelle</p>
 </header>
 
-<main>
+<div class="container">
 
-<div class="count" id="count"></div>
+  <div class="panel">
 
-<div class="grid" id="grid"></div>
+    <h2>➕ Ajouter un film</h2>
 
-</main>
+    <div class="form-grid">
+
+      <input
+        type="text"
+        id="title"
+        placeholder="Titre du film *"
+      >
+
+      <input
+        type="number"
+        id="year"
+        placeholder="Année"
+      >
+
+      <input
+        type="text"
+        id="director"
+        placeholder="Réalisateur"
+      >
+
+      <input
+        type="text"
+        id="genre"
+        placeholder="Genre"
+      >
+
+      <select id="format">
+        <option value="">Format</option>
+        <option value="DVD">DVD</option>
+        <option value="Blu-ray">Blu-ray</option>
+        <option value="4K UHD">4K UHD</option>
+        <option value="VHS">VHS</option>
+        <option value="Autre">Autre</option>
+      </select>
+
+      <select id="vf">
+        <option value="">Version française ?</option>
+        <option value="Oui">Oui</option>
+        <option value="Non">Non</option>
+        <option value="Inconnu">Inconnu</option>
+      </select>
+
+      <input
+        type="url"
+        id="cover"
+        placeholder="URL de la jaquette"
+      >
+
+    </div>
+
+    <div class="actions">
+      <button onclick="addFilm()">Ajouter le film</button>
+      <button class="secondary" onclick="clearForm()">Effacer</button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+  </div>
 
 
-<dialog id="dlg">
+  <div class="panel">
 
-<form class="form" id="filmForm">
+    <h2>🔎 Rechercher dans ma collection</h2>
 
-<h2>Ajouter un film</h2>
+    <input
+      class="search"
+      type="text"
+      id="search"
+      placeholder="Rechercher un titre, réalisateur, genre..."
+      oninput="displayFilms()"
+    >
 
-<label>Titre</label>
-<input id="title" required>
+    <div class="form-grid">
 
-<label>Année</label>
-<input
-  id="year"
-  type="number"
-  min="1888"
-  max="2100"
->
+      <select id="filterFormat" onchange="displayFilms()">
+        <option value="">Tous les formats</option>
+        <option value="DVD">DVD</option>
+        <option value="Blu-ray">Blu-ray</option>
+        <option value="4K UHD">4K UHD</option>
+        <option value="VHS">VHS</option>
+        <option value="Autre">Autre</option>
+      </select>
 
-<label>Réalisateur</label>
-<input
-  id="director"
-  placeholder="Nom du réalisateur"
->
+      <select id="filterVF" onchange="displayFilms()">
+        <option value="">VF : tous</option>
+        <option value="Oui">VF : Oui</option>
+        <option value="Non">VF : Non</option>
+        <option value="Inconnu">VF : Inconnu</option>
+      </select>
 
-<label>Genre</label>
-<input
-  id="genre"
-  placeholder="Horreur, fantastique..."
->
+    </div>
 
-<label>Format</label>
-<select id="fmt">
-  <option>DVD</option>
-  <option>Blu-ray</option>
-  <option>4K UHD</option>
-  <option>VHS</option>
-</select>
+  </div>
 
-<label>VF disponible ?</label>
-<select id="hasvf">
-  <option value="oui">Oui</option>
-  <option value="non">Non</option>
-</select>
 
-<label>Image / jaquette (URL facultative)</label>
-<input
-  id="cover"
-  placeholder="https://..."
->
+  <div class="panel">
 
-<div class="actions">
+    <h2>💾 Sauvegarde</h2>
 
-<button
-  type="button"
-  onclick="dlg.close()"
->
-  Annuler
-</button>
+    <p>
+      Les films sont enregistrés dans Supabase et restent donc accessibles
+      depuis tes différents appareils.
+    </p>
 
-<button
-  class="primary"
-  type="submit"
->
-  Ajouter
-</button>
+    <div class="actions">
+      <button class="secondary" onclick="exportFilms()">
+        Exporter ma collection
+      </button>
+
+      <button class="secondary" onclick="document.getElementById('importFile').click()">
+        Importer une collection
+      </button>
+
+      <input
+        type="file"
+        id="importFile"
+        accept=".json"
+        class="hidden"
+        onchange="importFilms(event)"
+      >
+    </div>
+
+  </div>
+
+
+  <div class="panel">
+
+    <h2>🎞️ Mes films</h2>
+
+    <div id="count" class="count">
+      Chargement...
+    </div>
+
+    <div id="films" class="films"></div>
+
+  </div>
 
 </div>
-
-</form>
-
-</dialog>
 
 
 <script>
 
-const key = "ma_collection_films_v1";
+  /* ============================================================
+     CONFIGURATION SUPABASE
+     ============================================================ */
 
-let films = JSON.parse(
-  localStorage.getItem(key) || "[]"
-);
+  const SUPABASE_URL = "https://nhiektoatqmwjtcbvvsi.supabase.co";
+
+  /*
+    IMPORTANT :
+    Remplace UNIQUEMENT le texte ci-dessous par ta clé
+    Publishable créée dans Supabase.
+  */
+
+  const SUPABASE_KEY = "sb_publishable_sAX3n8pDc5P8sUxIsrjF3g_SRxCx6Hb";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
 
-const seed = [
+  let films = [];
 
-  {
-    title:"Evil Dead",
-    year:1981,
-    director:"",
-    genre:"",
-    format:"Blu-ray",
-    vf:"oui",
-    cover:""
-  },
 
-  {
-    title:"Hellraiser",
-    year:1987,
-    director:"",
-    genre:"",
-    format:"Blu-ray",
-    vf:"oui",
-    cover:""
-  },
+  /* ============================================================
+     CHARGEMENT
+     ============================================================ */
 
-  {
-    title:"Braindead",
-    year:1992,
-    director:"",
-    genre:"",
-    format:"Blu-ray",
-    vf:"oui",
-    cover:""
-  },
+  async function loadFilms() {
 
-  {
-    title:"Creepshow",
-    year:1982,
-    director:"",
-    genre:"",
-    format:"Blu-ray",
-    vf:"oui",
-    cover:""
+    setStatus("Chargement de la collection...");
+
+    const { data, error } = await supabaseClient
+      .from("Films")
+      .select("*")
+      .order("title", { ascending: true });
+
+    if (error) {
+
+      console.error(error);
+
+      setStatus(
+        "❌ Erreur de chargement : " + error.message
+      );
+
+      return;
+    }
+
+    films = data || [];
+
+    displayFilms();
+
+    setStatus(
+      films.length +
+      " film" +
+      (films.length > 1 ? "s" : "") +
+      " chargé" +
+      (films.length > 1 ? "s" : "") +
+      "."
+    );
   }
 
-];
+
+  /* ============================================================
+     AFFICHAGE
+     ============================================================ */
+
+  function displayFilms() {
+
+    const container =
+      document.getElementById("films");
+
+    const search =
+      document.getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const filterFormat =
+      document.getElementById("filterFormat").value;
+
+    const filterVF =
+      document.getElementById("filterVF").value;
 
 
-if(!films.length){
+    const filtered =
+      films.filter(film => {
 
-  films = seed;
+        const text = (
+          (film.title || "") +
+          " " +
+          (film.director || "") +
+          " " +
+          (film.genre || "") +
+          " " +
+          (film.year || "")
+        ).toLowerCase();
 
-  save();
-
-}
-
-
-function save(){
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(films)
-  );
-
-}
-
-
-function render(){
-
-  const q =
-    search.value.toLowerCase().trim();
-
-  const f = format.value;
-
-  const v = vf.value;
-
-
-  const list = films.filter(x =>
-
-    (!q ||
-      x.title.toLowerCase().includes(q)
-    )
-
-    &&
-
-    (!f ||
-      x.format === f
-    )
-
-    &&
-
-    (!v ||
-      x.vf === v
-    )
-
-  );
-
-
-  count.textContent =
-    `${list.length} film${list.length>1?"s":""} affiché${list.length>1?"s":""} · ${films.length} dans la collection`;
-
-
-  grid.innerHTML = list.length
-
-    ?
-
-    list.map(x => `
-
-      <article class="card">
-
-        ${
-          x.cover
-
-          ?
-
-          `<img
-            class="cover"
-            src="${esc(x.cover)}"
-            alt=""
-          >`
-
-          :
-
-          `<div class="cover"></div>`
+        if (
+          search &&
+          !text.includes(search)
+        ) {
+          return false;
         }
 
+        if (
+          filterFormat &&
+          film.format !== filterFormat
+        ) {
+          return false;
+        }
 
-        <div class="info">
+        if (
+          filterVF &&
+          film.vf !== filterVF
+        ) {
+          return false;
+        }
 
-          <div
-            class="title"
-            title="${esc(x.title)}"
+        return true;
+      });
+
+
+    document.getElementById("count").textContent =
+      filtered.length +
+      " film" +
+      (filtered.length > 1 ? "s" : "") +
+      " affiché" +
+      (filtered.length > 1 ? "s" : "") +
+      " / " +
+      films.length +
+      " au total";
+
+
+    container.innerHTML = "";
+
+
+    if (filtered.length === 0) {
+
+      container.innerHTML =
+        "<p style='color:#888;'>Aucun film trouvé.</p>";
+
+      return;
+    }
+
+
+    filtered.forEach(film => {
+
+      const card =
+        document.createElement("div");
+
+      card.className = "film";
+
+
+      let coverHTML = "";
+
+      if (film.cover) {
+
+        coverHTML =
+          `<img
+            class="film-cover"
+            src="${escapeAttribute(film.cover)}"
+            alt="Jaquette de ${escapeHTML(film.title || "")}"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
           >
-            ${esc(x.title)}
+          <div class="no-cover" style="display:none;">
+            Pas de jaquette
+          </div>`;
+
+      } else {
+
+        coverHTML =
+          `<div class="no-cover">
+            Pas de jaquette
+          </div>`;
+      }
+
+
+      card.innerHTML = `
+
+        ${coverHTML}
+
+        <div class="film-info">
+
+          <div class="film-title">
+            ${escapeHTML(film.title || "Sans titre")}
           </div>
 
-
-          <div class="meta">
-
-            ${x.year || "—"}
-            ·
-            ${x.format}
-            ·
-            ${x.vf==="oui" ? "🇫🇷 VF" : "VOST/VO"}
-
-            <br>
+          <div class="film-details">
 
             ${
-              x.director
-              ?
-              `🎬 ${esc(x.director)}<br>`
-              :
-              ""
+              film.year
+                ? "📅 " + escapeHTML(String(film.year)) + "<br>"
+                : ""
             }
 
             ${
-              x.genre
-              ?
-              `👻 ${esc(x.genre)}`
-              :
-              ""
+              film.director
+                ? "🎬 " + escapeHTML(film.director) + "<br>"
+                : ""
             }
+
+            ${
+              film.genre
+                ? "🎭 " + escapeHTML(film.genre) + "<br>"
+                : ""
+            }
+
+            ${
+              film.format
+                ? "💿 " + escapeHTML(film.format) + "<br>"
+                : ""
+            }
+
+            ${
+              film.vf
+                ? "🇫🇷 VF : " + escapeHTML(film.vf)
+                : ""
+            }
+
+          </div>
+
+          <div class="film-actions">
+
+            <button
+              class="danger"
+              onclick="deleteFilm(${film.id})"
+            >
+              Supprimer
+            </button>
 
           </div>
 
         </div>
-
-      </article>
-
-    `).join("")
-
-    :
-
-    `<div class="empty">
-      Aucun film trouvé.
-    </div>`;
-
-}
+      `;
 
 
-function esc(s){
-
-  return String(s ?? "")
-    .replace(/[&<>"']/g, m => ({
-
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-
-    }[m]));
-
-}
-
-
-function openAdd(){
-
-  filmForm.reset();
-
-  dlg.showModal();
-
-  title.focus();
-
-}
-
-
-filmForm.addEventListener(
-  "submit",
-  e => {
-
-    e.preventDefault();
-
-
-    films.push({
-
-      title:title.value.trim(),
-
-      year:year.value,
-
-      director:director.value.trim(),
-
-      genre:genre.value.trim(),
-
-      format:fmt.value,
-
-      vf:hasvf.value,
-
-      cover:cover.value.trim()
+      container.appendChild(card);
 
     });
 
+  }
 
-    save();
 
-    dlg.close();
+  /* ============================================================
+     AJOUT
+     ============================================================ */
 
-    render();
+  async function addFilm() {
+
+    const title =
+      document.getElementById("title").value.trim();
+
+    if (!title) {
+
+      setStatus(
+        "⚠️ Le titre du film est obligatoire."
+      );
+
+      return;
+    }
+
+
+    const yearValue =
+      document.getElementById("year").value;
+
+
+    const film = {
+
+      title: title,
+
+      year:
+        yearValue
+          ? parseInt(yearValue)
+          : null,
+
+      director:
+        document.getElementById("director")
+          .value
+          .trim() || null,
+
+      genre:
+        document.getElementById("genre")
+          .value
+          .trim() || null,
+
+      format:
+        document.getElementById("format")
+          .value || null,
+
+      vf:
+        document.getElementById("vf")
+          .value || null,
+
+      cover:
+        document.getElementById("cover")
+          .value
+          .trim() || null
+
+    };
+
+
+    setStatus("Ajout du film...");
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("Films")
+        .insert([film])
+        .select();
+
+
+    if (error) {
+
+      console.error(error);
+
+      setStatus(
+        "❌ Impossible d'ajouter le film : " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    if (data && data.length) {
+
+      films.push(data[0]);
+
+    }
+
+
+    clearForm();
+
+    displayFilms();
+
+    setStatus(
+      "✅ " +
+      title +
+      " a été ajouté à ta collection."
+    );
 
   }
-);
 
 
-[search,format,vf].forEach(
-  x => x.addEventListener(
-    "input",
-    render
-  )
-);
+  /* ============================================================
+     SUPPRESSION
+     ============================================================ */
+
+  async function deleteFilm(id) {
+
+    const film =
+      films.find(f => f.id === id);
+
+    if (!film) return;
 
 
-function exportData(){
+    const confirmation =
+      confirm(
+        'Supprimer "' +
+        film.title +
+        '" de ta collection ?'
+      );
 
-  const blob = new Blob(
 
-    [
+    if (!confirmation) return;
+
+
+    setStatus("Suppression...");
+
+
+    const { error } =
+      await supabaseClient
+        .from("Films")
+        .delete()
+        .eq("id", id);
+
+
+    if (error) {
+
+      console.error(error);
+
+      setStatus(
+        "❌ Erreur lors de la suppression : " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    films =
+      films.filter(f => f.id !== id);
+
+
+    displayFilms();
+
+    setStatus(
+      "🗑️ Film supprimé."
+    );
+
+  }
+
+
+  /* ============================================================
+     FORMULAIRE
+     ============================================================ */
+
+  function clearForm() {
+
+    document.getElementById("title").value = "";
+    document.getElementById("year").value = "";
+    document.getElementById("director").value = "";
+    document.getElementById("genre").value = "";
+    document.getElementById("format").value = "";
+    document.getElementById("vf").value = "";
+    document.getElementById("cover").value = "";
+
+  }
+
+
+  /* ============================================================
+     EXPORT
+     ============================================================ */
+
+  function exportFilms() {
+
+    const json =
       JSON.stringify(
         films,
         null,
         2
-      )
-    ],
+      );
 
-    {
-      type:"application/json"
+
+    const blob =
+      new Blob(
+        [json],
+        {
+          type: "application/json"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const a =
+      document.createElement("a");
+
+
+    a.href = url;
+
+    a.download =
+      "ma-collection-films.json";
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(url);
+
+
+    setStatus(
+      "💾 Collection exportée."
+    );
+
+  }
+
+
+  /* ============================================================
+     IMPORT
+     ============================================================ */
+
+  async function importFilms(event) {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) return;
+
+
+    try {
+
+      const text =
+        await file.text();
+
+      const imported =
+        JSON.parse(text);
+
+
+      if (!Array.isArray(imported)) {
+
+        throw new Error(
+          "Le fichier ne contient pas une collection valide."
+        );
+
+      }
+
+
+      setStatus(
+        "Importation de " +
+        imported.length +
+        " film(s)..."
+      );
+
+
+      /*
+        On ne réutilise pas les anciens IDs.
+        Supabase les créera automatiquement.
+      */
+
+      const cleanFilms =
+        imported.map(film => ({
+
+          title: film.title || "Sans titre",
+
+          year:
+            film.year
+              ? parseInt(film.year)
+              : null,
+
+          director:
+            film.director || null,
+
+          genre:
+            film.genre || null,
+
+          format:
+            film.format || null,
+
+          vf:
+            film.vf || null,
+
+          cover:
+            film.cover || null
+
+        }));
+
+
+      const { error } =
+        await supabaseClient
+          .from("Films")
+          .insert(cleanFilms);
+
+
+      if (error) {
+
+        throw error;
+
+      }
+
+
+      await loadFilms();
+
+
+      setStatus(
+        "✅ Collection importée avec succès."
+      );
+
     }
 
-  );
+    catch (error) {
+
+      console.error(error);
+
+      setStatus(
+        "❌ Erreur d'importation : " +
+        error.message
+      );
+
+    }
 
 
-  const a =
-    document.createElement("a");
+    event.target.value = "";
 
-  a.href =
-    URL.createObjectURL(blob);
-
-  a.download =
-    "ma-collection-films.json";
-
-  a.click();
-
-  URL.revokeObjectURL(a.href);
-
-}
+  }
 
 
-render();
+  /* ============================================================
+     UTILITAIRES
+     ============================================================ */
+
+  function setStatus(message) {
+
+    document.getElementById("status")
+      .textContent = message;
+
+  }
+
+
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function escapeAttribute(value) {
+
+    return String(value)
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* ============================================================
+     DÉMARRAGE
+     ============================================================ */
+
+  loadFilms();
 
 </script>
 
