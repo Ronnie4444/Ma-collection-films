@@ -38,6 +38,12 @@ dialog::backdrop{background:#000b}.form{padding:20px}.form h2{margin-top:0}.form
 <h2>Ajouter un film</h2>
 <label>Titre</label><input id="title" required>
 <label>Année</label><input id="year" type="number" min="1888" max="2100">
+
+<label>Réalisateur</label><input id="director" placeholder="Nom du réalisateur">
+
+<label>Genre</label><input id="genre" placeholder="Horreur, fantastique...">
+
+<label>Format</label>
 <label>Format</label><select id="fmt"><option>DVD</option><option>Blu-ray</option><option>4K UHD</option><option>VHS</option></select>
 <label>VF disponible ?</label><select id="hasvf"><option value="oui">Oui</option><option value="non">Non</option></select>
 <label>Image / jaquette (URL facultative)</label><input id="cover" placeholder="https://…">
@@ -64,11 +70,15 @@ function render(){
  grid.innerHTML=list.length?list.map((x,i)=>`<article class="card">
  ${x.cover?`<img class="cover" src="${esc(x.cover)}" alt="">`:`<div class="cover"></div>`}
  <div class="info"><div class="title" title="${esc(x.title)}">${esc(x.title)}</div>
- <div class="meta">${x.year||"—"} · ${x.format} · ${x.vf==="oui"?"🇫🇷 VF":"VOST/VO"}</div></div></article>`).join(""):`<div class="empty">Aucun film trouvé.</div>`;
+ <div class="meta">   ${x.year||"—"} · ${x.format} · ${x.vf==="oui"?"🇫🇷 VF":"VOST/VO"}<br>   ${x.director?`🎬 ${esc(x.director)}<br>`:""}   ${x.genre?`👻 ${esc(x.genre)}`:""} </div><div class="meta">
+  ${x.year||"—"} · ${x.format} · ${x.vf==="oui"?"🇫🇷 VF":"VOST/VO"}<br>
+  ${x.director?`🎬 ${esc(x.director)}<br>`:""}
+  ${x.genre?`👻 ${esc(x.genre)}`:""}
+</div></div></article>`).join(""):`<div class="empty">Aucun film trouvé.</div>`;
 }
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function openAdd(){filmForm.reset();dlg.showModal();title.focus()}
-filmForm.addEventListener("submit",e=>{e.preventDefault();films.push({title:title.value.trim(),year:year.value,format:fmt.value,vf:hasvf.value,cover:cover.value.trim()});save();dlg.close();render()})
+filmForm.addEventListener("submit",e=>{e.preventDefault();films.push({title:title.value.trim(),year:year.value,director:director.value.trim(),genre:genre.value.trim(),format:fmt.value,vf:hasvf.value,cover:cover.value.trim()});
 [search,format,vf].forEach(x=>x.addEventListener("input",render))
 function exportData(){const blob=new Blob([JSON.stringify(films,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="ma-collection-films.json";a.click();URL.revokeObjectURL(a.href)}
 render();
