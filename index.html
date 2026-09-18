@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -208,6 +209,29 @@
       display: none !important;
     }
 
+    .cover-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .cover-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #252525;
+      color: white;
+      cursor: pointer;
+    }
+
+    .cover-help {
+      color: #777;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
     @media (max-width: 600px) {
 
       header h1 {
@@ -232,6 +256,7 @@
       }
     }
   </style>
+
 </head>
 
 <body>
@@ -244,247 +269,275 @@
 <div class="container">
 
   <!-- CONNEXION -->
+
   <div class="panel login-panel">
 
-    <div id="visitorArea">
+```
+<div id="visitorArea">
 
-      <h2>🔐 Accès propriétaire</h2>
+  <h2>🔐 Accès propriétaire</h2>
 
-      <p style="color:#aaa;">
-        La collection est consultable librement.<br>
-        Connecte-toi pour ajouter ou supprimer des films.
-      </p>
+  <p style="color:#aaa;">
+    La collection est consultable librement.<br>
+    Connecte-toi pour ajouter ou supprimer des films.
+  </p>
 
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="Adresse e-mail"
-      >
+  <input
+    type="email"
+    id="loginEmail"
+    placeholder="Adresse e-mail"
+  >
 
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="Mot de passe"
-      >
+  <input
+    type="password"
+    id="loginPassword"
+    placeholder="Mot de passe"
+  >
 
-      <button onclick="login()">
-        Se connecter
-      </button>
+  <button onclick="login()">
+    Se connecter
+  </button>
 
-      <div id="loginStatus" class="status"></div>
+  <div id="loginStatus" class="status"></div>
 
-    </div>
+</div>
 
+<div id="adminArea" class="hidden">
 
-    <div id="adminArea" class="hidden">
+  <div class="admin-badge">
+    🔓 Mode propriétaire activé
+  </div>
 
-      <div class="admin-badge">
-        🔓 Mode propriétaire activé
-      </div>
+  <div id="loggedEmail" style="color:#aaa;"></div>
 
-      <div id="loggedEmail" style="color:#aaa;"></div>
+  <div class="actions" style="justify-content:center;">
 
-      <div class="actions" style="justify-content:center;">
-
-        <button
-          class="secondary"
-          onclick="logout()"
-        >
-          Se déconnecter
-        </button>
-
-      </div>
-
-    </div>
+    <button
+      class="secondary"
+      onclick="logout()"
+    >
+      Se déconnecter
+    </button>
 
   </div>
 
+</div>
+```
+
+  </div>
 
   <!-- AJOUT FILM -->
+
   <div
     class="panel hidden"
     id="addFilmPanel"
   >
 
-    <h2>➕ Ajouter un film</h2>
+```
+<h2>➕ Ajouter un film</h2>
 
-    <div class="form-grid">
+<div class="form-grid">
 
-      <input
-        type="text"
-        id="title"
-        placeholder="Titre du film *"
-      >
+  <input
+    type="text"
+    id="title"
+    placeholder="Titre du film *"
+  >
 
-      <input
-        type="number"
-        id="year"
-        placeholder="Année"
-      >
+  <input
+    type="number"
+    id="year"
+    placeholder="Année"
+  >
 
-      <input
-        type="text"
-        id="director"
-        placeholder="Réalisateur"
-      >
+  <input
+    type="text"
+    id="director"
+    placeholder="Réalisateur"
+  >
 
-      <input
-        type="text"
-        id="genre"
-        placeholder="Genre"
-      >
+  <input
+    type="text"
+    id="genre"
+    placeholder="Genre"
+  >
 
-      <select id="format">
-        <option value="">Format</option>
-        <option value="DVD">DVD</option>
-        <option value="Blu-ray">Blu-ray</option>
-        <option value="4K UHD">4K UHD</option>
-        <option value="VHS">VHS</option>
-        <option value="Autre">Autre</option>
-      </select>
+  <select id="format">
+    <option value="">Format</option>
+    <option value="DVD">DVD</option>
+    <option value="Blu-ray">Blu-ray</option>
+    <option value="4K UHD">4K UHD</option>
+    <option value="VHS">VHS</option>
+    <option value="Autre">Autre</option>
+  </select>
 
-      <select id="vf">
-        <option value="">Version française ?</option>
-        <option value="Oui">Oui</option>
-        <option value="Non">Non</option>
-        <option value="Inconnu">Inconnu</option>
-      </select>
+  <select id="vf">
+    <option value="">Version française ?</option>
+    <option value="Oui">Oui</option>
+    <option value="Non">Non</option>
+    <option value="Inconnu">Inconnu</option>
+  </select>
 
-      <input
-        type="url"
-        id="cover"
-        placeholder="URL de la jaquette"
-      >
+</div>
 
-    </div>
+<div style="margin-top:12px;">
 
-    <div class="actions">
+  <label
+    for="coverFile"
+    class="cover-label"
+  >
+    📷 Jaquette du film
+  </label>
 
-      <button onclick="addFilm()">
-        Ajouter le film
-      </button>
+  <input
+    type="file"
+    id="coverFile"
+    class="cover-input"
+    accept="image/*"
+    capture="environment"
+  >
 
-      <button
-        class="secondary"
-        onclick="clearForm()"
-      >
-        Effacer
-      </button>
-
-    </div>
-
-    <div
-      id="status"
-      class="status"
-    ></div>
-
+  <div class="cover-help">
+    Tu peux prendre une photo avec ton téléphone,
+    choisir une image dans ta galerie ou sélectionner
+    un fichier téléchargé.
   </div>
 
+</div>
+
+<div class="actions">
+
+  <button onclick="addFilm()">
+    Ajouter le film
+  </button>
+
+  <button
+    class="secondary"
+    onclick="clearForm()"
+  >
+    Effacer
+  </button>
+
+</div>
+
+<div
+  id="status"
+  class="status"
+></div>
+```
+
+  </div>
 
   <!-- RECHERCHE -->
+
   <div class="panel">
 
-    <h2>🔎 Rechercher dans ma collection</h2>
+```
+<h2>🔎 Rechercher dans ma collection</h2>
 
-    <input
-      class="search"
-      type="text"
-      id="search"
-      placeholder="Rechercher un titre, réalisateur, genre..."
-      oninput="displayFilms()"
-    >
+<input
+  class="search"
+  type="text"
+  id="search"
+  placeholder="Rechercher un titre, réalisateur, genre..."
+  oninput="displayFilms()"
+>
 
-    <div class="form-grid">
+<div class="form-grid">
 
-      <select
-        id="filterFormat"
-        onchange="displayFilms()"
-      >
-        <option value="">Tous les formats</option>
-        <option value="DVD">DVD</option>
-        <option value="Blu-ray">Blu-ray</option>
-        <option value="4K UHD">4K UHD</option>
-        <option value="VHS">VHS</option>
-        <option value="Autre">Autre</option>
-      </select>
+  <select
+    id="filterFormat"
+    onchange="displayFilms()"
+  >
+    <option value="">Tous les formats</option>
+    <option value="DVD">DVD</option>
+    <option value="Blu-ray">Blu-ray</option>
+    <option value="4K UHD">4K UHD</option>
+    <option value="VHS">VHS</option>
+    <option value="Autre">Autre</option>
+  </select>
 
-      <select
-        id="filterVF"
-        onchange="displayFilms()"
-      >
-        <option value="">VF : tous</option>
-        <option value="Oui">VF : Oui</option>
-        <option value="Non">VF : Non</option>
-        <option value="Inconnu">VF : Inconnu</option>
-      </select>
+  <select
+    id="filterVF"
+    onchange="displayFilms()"
+  >
+    <option value="">VF : tous</option>
+    <option value="Oui">VF : Oui</option>
+    <option value="Non">VF : Non</option>
+    <option value="Inconnu">VF : Inconnu</option>
+  </select>
 
-    </div>
+</div>
+```
 
   </div>
 
-
   <!-- SAUVEGARDE -->
+
   <div
     class="panel hidden"
     id="backupPanel"
   >
 
-    <h2>💾 Sauvegarde</h2>
+```
+<h2>💾 Sauvegarde</h2>
 
-    <p>
-      Les films sont enregistrés dans Supabase.
-    </p>
+<p>
+  Les films sont enregistrés dans Supabase.
+</p>
 
-    <div class="actions">
+<div class="actions">
 
-      <button
-        class="secondary"
-        onclick="exportFilms()"
-      >
-        Exporter ma collection
-      </button>
+  <button
+    class="secondary"
+    onclick="exportFilms()"
+  >
+    Exporter ma collection
+  </button>
 
-      <button
-        class="secondary"
-        onclick="document.getElementById('importFile').click()"
-      >
-        Importer une collection
-      </button>
+  <button
+    class="secondary"
+    onclick="document.getElementById('importFile').click()"
+  >
+    Importer une collection
+  </button>
 
-      <input
-        type="file"
-        id="importFile"
-        accept=".json"
-        class="hidden"
-        onchange="importFilms(event)"
-      >
+  <input
+    type="file"
+    id="importFile"
+    accept=".json"
+    class="hidden"
+    onchange="importFilms(event)"
+  >
 
-    </div>
+</div>
+```
 
   </div>
 
-
   <!-- COLLECTION -->
+
   <div class="panel">
 
-    <h2>🎞️ Mes films</h2>
+```
+<h2>🎞️ Mes films</h2>
 
-    <div
-      id="count"
-      class="count"
-    >
-      Chargement...
-    </div>
+<div
+  id="count"
+  class="count"
+>
+  Chargement...
+</div>
 
-    <div
-      id="films"
-      class="films"
-    ></div>
+<div
+  id="films"
+  class="films"
+></div>
+```
 
   </div>
 
 </div>
-
 
 <script>
 
@@ -494,10 +547,6 @@
 
   const SUPABASE_URL =
     "https://nhiektoatqmwjtcbvvsi.supabase.co";
-
-  /*
-    ⚠️ REMETS ICI TA CLÉ PUBLISHABLE SUPABASE
-  */
 
   const SUPABASE_KEY =
     "sb_publishable_sAX3n8pDc5P8sUxIsrjF3g_SRxCx6Hb";
@@ -627,7 +676,7 @@
 
 
   /* ============================================================
-     INTERFACE SELON UTILISATEUR
+     INTERFACE
      ============================================================ */
 
   function updateInterface() {
@@ -957,6 +1006,118 @@
 
 
   /* ============================================================
+     UPLOAD JAQUETTE
+     ============================================================ */
+
+  async function uploadCover(file) {
+
+    if (!file) {
+
+      return null;
+
+    }
+
+
+    if (!file.type.startsWith("image/")) {
+
+      throw new Error(
+        "Le fichier choisi n'est pas une image."
+      );
+
+    }
+
+
+    if (file.size > 10 * 1024 * 1024) {
+
+      throw new Error(
+        "La jaquette est trop volumineuse. Maximum : 10 Mo."
+      );
+
+    }
+
+
+    const extension =
+      file.name.includes(".")
+        ? file.name
+            .split(".")
+            .pop()
+            .toLowerCase()
+        : "jpg";
+
+
+    const safeExtension =
+      extension.replace(
+        /[^a-z0-9]/gi,
+        ""
+      ) || "jpg";
+
+
+    const fileName =
+      currentUser.id +
+      "/" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .substring(2, 10) +
+      "." +
+      safeExtension;
+
+
+    setStatus(
+      "📷 Envoi de la jaquette..."
+    );
+
+
+    const { error } =
+      await supabaseClient
+        .storage
+        .from("covers")
+        .upload(
+          fileName,
+          file,
+          {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: file.type
+          }
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      throw new Error(
+        "Impossible d'envoyer la jaquette : " +
+        error.message
+      );
+
+    }
+
+
+    const { data } =
+      supabaseClient
+        .storage
+        .from("covers")
+        .getPublicUrl(fileName);
+
+
+    if (!data || !data.publicUrl) {
+
+      throw new Error(
+        "Impossible de récupérer l'adresse de la jaquette."
+      );
+
+    }
+
+
+    return data.publicUrl;
+
+  }
+
+
+  /* ============================================================
      AJOUT FILM
      ============================================================ */
 
@@ -995,84 +1156,113 @@
         .value;
 
 
-    const film = {
-
-      title: title,
-
-      year:
-        yearValue
-          ? parseInt(yearValue)
-          : null,
-
-      director:
-        document.getElementById("director")
-          .value
-          .trim() || null,
-
-      genre:
-        document.getElementById("genre")
-          .value
-          .trim() || null,
-
-      format:
-        document.getElementById("format")
-          .value || null,
-
-      vf:
-        document.getElementById("vf")
-          .value || null,
-
-      cover:
-        document.getElementById("cover")
-          .value
-          .trim() || null
-
-    };
+    const coverFile =
+      document.getElementById("coverFile")
+        .files[0];
 
 
-    setStatus(
-      "Ajout du film..."
-    );
+    try {
+
+      let coverUrl = null;
 
 
-    const { data, error } =
-      await supabaseClient
-        .from("Films")
-        .insert([film])
-        .select();
+      if (coverFile) {
+
+        coverUrl =
+          await uploadCover(
+            coverFile
+          );
+
+      }
 
 
-    if (error) {
+      const film = {
+
+        title: title,
+
+        year:
+          yearValue
+            ? parseInt(yearValue)
+            : null,
+
+        director:
+          document.getElementById("director")
+            .value
+            .trim() || null,
+
+        genre:
+          document.getElementById("genre")
+            .value
+            .trim() || null,
+
+        format:
+          document.getElementById("format")
+            .value || null,
+
+        vf:
+          document.getElementById("vf")
+            .value || null,
+
+        cover:
+          coverUrl
+
+      };
+
+
+      setStatus(
+        "🎬 Ajout du film..."
+      );
+
+
+      const { data, error } =
+        await supabaseClient
+          .from("Films")
+          .insert([film])
+          .select();
+
+
+      if (error) {
+
+        console.error(error);
+
+        throw new Error(
+          "Impossible d'ajouter le film : " +
+          error.message
+        );
+
+      }
+
+
+      if (data && data.length) {
+
+        films.push(data[0]);
+
+      }
+
+
+      clearForm();
+
+      displayFilms();
+
+
+      setStatus(
+        "✅ " +
+        title +
+        " a été ajouté."
+      );
+
+    }
+
+    catch (error) {
 
       console.error(error);
 
       setStatus(
-        "❌ Impossible d'ajouter le film : " +
+        "❌ " +
         error.message
       );
 
-      return;
-
     }
-
-
-    if (data && data.length) {
-
-      films.push(data[0]);
-
-    }
-
-
-    clearForm();
-
-    displayFilms();
-
-
-    setStatus(
-      "✅ " +
-      title +
-      " a été ajouté."
-    );
 
   }
 
@@ -1184,7 +1374,7 @@
     document.getElementById("vf")
       .value = "";
 
-    document.getElementById("cover")
+    document.getElementById("coverFile")
       .value = "";
 
   }
