@@ -199,16 +199,20 @@
       color: #bbb;
     }
 
+    /* =========================================================
+       GRILLE DES FILMS
+       ========================================================= */
+
     .films-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 15px;
     }
 
     .film-card {
       background: #1c1c1c;
       border: 1px solid #333;
-      border-radius: 12px;
+      border-radius: 10px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -234,33 +238,34 @@
     }
 
     .film-info {
-      padding: 14px;
+      padding: 10px;
       flex: 1;
     }
 
     .film-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: white;
     }
 
     .film-meta {
-      font-size: 13px;
+      font-size: 12px;
       color: #aaa;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     .film-actions {
-      padding: 0 14px 14px;
+      padding: 0 10px 10px;
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     .film-actions button {
       flex: 1;
       margin-top: 0;
-      font-size: 13px;
+      font-size: 11px;
+      padding: 8px 5px;
     }
 
     .hidden {
@@ -293,18 +298,27 @@
     }
 
     @media (max-width: 700px) {
+
       .form-grid,
       .filters-grid {
         grid-template-columns: 1fr;
       }
 
       .films-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
       }
 
       .film-title {
-        font-size: 16px;
+        font-size: 14px;
+      }
+
+      .film-info {
+        padding: 8px;
+      }
+
+      .film-meta {
+        font-size: 11px;
       }
 
       .tabs {
@@ -318,9 +332,12 @@
     }
 
     @media (max-width: 420px) {
+
       .films-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
       }
+
     }
   </style>
 </head>
@@ -1087,12 +1104,6 @@
         ? vfElement.value
         : "";
 
-    /*
-      IMPORTANT :
-      La collection utilise UNIQUEMENT films.
-      La wishlist utilise UNIQUEMENT wishlist.
-    */
-
     const source =
       currentTab === "collection"
         ? films
@@ -1138,10 +1149,6 @@
 
     filteredFilms =
       sortFilms(filteredFilms);
-
-    /*
-      Mise à jour sécurisée du compteur
-    */
 
     if (countElement) {
 
@@ -1441,19 +1448,10 @@
 
     try {
 
-      /*
-        IMPORTANT :
-        currentTab détermine directement la table.
-      */
-
       const table =
         currentTab === "collection"
           ? "Films"
           : "Wishlist";
-
-      /*
-        MODIFICATION
-      */
 
       if (editingFilmId) {
 
@@ -1482,10 +1480,6 @@
         );
 
       }
-
-      /*
-        AJOUT
-      */
 
       else {
 
@@ -1526,10 +1520,6 @@
       clearForm();
       updateFormMode();
 
-      /*
-        On recharge UNIQUEMENT la bonne table.
-      */
-
       if (currentTab === "collection") {
 
         await loadFilms();
@@ -1540,10 +1530,6 @@
         await loadWishlist();
 
       }
-
-      /*
-        Puis on affiche le bon onglet.
-      */
 
       displayFilms();
 
