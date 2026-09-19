@@ -43,8 +43,6 @@
       padding: 20px;
     }
 
-    /* ONGLET */
-
     .tabs {
       display: flex;
       gap: 10px;
@@ -294,11 +292,6 @@
       color: #6faeff;
     }
 
-    .wishlist-note {
-      color: #aaa;
-      margin-top: 0;
-    }
-
     @media (max-width: 700px) {
       .form-grid,
       .filters-grid {
@@ -341,8 +334,8 @@
 
 <div class="container">
 
-  <!-- ONGLET -->
   <div class="tabs">
+
     <button
       id="collectionTab"
       class="tab active"
@@ -358,10 +351,12 @@
     >
       ❤️ Ma wishlist
     </button>
+
   </div>
 
 
   <!-- CONNEXION -->
+
   <div class="login-box" id="loginBox">
 
     <h2>🔐 Mode propriétaire</h2>
@@ -396,7 +391,8 @@
   </div>
 
 
-  <!-- PANNEAU PROPRIETAIRE -->
+  <!-- MODE PROPRIETAIRE -->
+
   <div
     class="owner-panel hidden"
     id="ownerPanel"
@@ -530,6 +526,7 @@
 
 
   <!-- FILTRES -->
+
   <div class="filters">
 
     <div class="filters-grid">
@@ -596,14 +593,19 @@
   </div>
 
 
-  <!-- COLLECTION -->
+  <!-- COMPTEUR -->
+
   <div class="collection-info">
 
-    <div class="collection-count">
+    <div
+      class="collection-count"
+      id="collectionCount"
+    >
       <strong id="filmCount">0</strong> film(s)
     </div>
 
     <div>
+
       <button
         class="btn-secondary"
         onclick="exportFilms()"
@@ -618,6 +620,7 @@
           font-weight:normal;
         "
       >
+
         <input
           type="file"
           id="importFile"
@@ -632,7 +635,9 @@
         >
           📥 Importer
         </button>
+
       </label>
+
     </div>
 
   </div>
@@ -670,13 +675,9 @@
      ========================================================= */
 
   let films = [];
-
   let wishlist = [];
-
   let currentUser = null;
-
   let editingFilmId = null;
-
   let currentTab = "collection";
 
 
@@ -712,8 +713,9 @@
   async function loadAll() {
 
     await loadFilms();
-
     await loadWishlist();
+
+    displayFilms();
 
   }
 
@@ -727,23 +729,32 @@
       .from("Films")
       .select("*");
 
-
     if (error) {
 
-      console.error(error);
+      console.error(
+        "Erreur chargement Films :",
+        error
+      );
 
-      document.getElementById("filmsGrid").innerHTML =
-        "<p>Impossible de charger les films.</p>";
+      films = [];
+
+      if (currentTab === "collection") {
+
+        const grid =
+          document.getElementById("filmsGrid");
+
+        if (grid) {
+          grid.innerHTML =
+            "<p>Impossible de charger les films.</p>";
+        }
+
+      }
 
       return;
-    }
 
+    }
 
     films = data || [];
-
-    if (currentTab === "collection") {
-      displayFilms();
-    }
 
   }
 
@@ -757,20 +768,34 @@
       .from("Wishlist")
       .select("*");
 
-
     if (error) {
 
-      console.error(error);
+      console.error(
+        "Erreur chargement Wishlist :",
+        error
+      );
+
+      wishlist = [];
+
+      if (currentTab === "wishlist") {
+
+        const grid =
+          document.getElementById("filmsGrid");
+
+        if (grid) {
+
+          grid.innerHTML =
+            "<p style='color:#ffaaaa;'>Impossible de charger la wishlist.</p>";
+
+        }
+
+      }
 
       return;
-    }
 
+    }
 
     wishlist = data || [];
-
-    if (currentTab === "wishlist") {
-      displayFilms();
-    }
 
   }
 
@@ -782,47 +807,54 @@
   function switchTab(tab) {
 
     currentTab = tab;
-
     editingFilmId = null;
 
     clearForm();
-
     updateFormMode();
 
-    document
-      .getElementById("formMessage")
-      .className = "message";
+    const formMessage =
+      document.getElementById("formMessage");
 
+    if (formMessage) {
+      formMessage.className = "message";
+      formMessage.textContent = "";
+    }
 
-    document
-      .getElementById("collectionTab")
-      .classList.toggle(
+    const collectionTab =
+      document.getElementById("collectionTab");
+
+    const wishlistTab =
+      document.getElementById("wishlistTab");
+
+    if (collectionTab) {
+
+      collectionTab.classList.toggle(
         "active",
         tab === "collection"
       );
 
+    }
 
-    document
-      .getElementById("wishlistTab")
-      .classList.toggle(
+    if (wishlistTab) {
+
+      wishlistTab.classList.toggle(
         "active",
         tab === "wishlist"
       );
 
-
-    if (tab === "collection") {
-
-      document.getElementById("search").placeholder =
-        "Titre, réalisateur, genre...";
-
-    }
-    else {
-
-      document.getElementById("search").placeholder =
-        "Rechercher dans la wishlist...";
-
     }
 
+    const search =
+      document.getElementById("search");
+
+    if (search) {
+
+      search.placeholder =
+        tab === "collection"
+          ? "Titre, réalisateur, genre..."
+          : "Rechercher dans la wishlist...";
+
+    }
 
     displayFilms();
 
@@ -835,20 +867,24 @@
 
   async function login() {
 
-    const email =
-      document
-        .getElementById("email")
-        .value
-        .trim();
+    const emailElement =
+      document.getElementById("email");
 
-    const password =
-      document
-        .getElementById("password")
-        .value;
+    const passwordElement =
+      document.getElementById("password");
 
     const message =
       document.getElementById("loginMessage");
 
+    const email =
+      emailElement
+        ? emailElement.value.trim()
+        : "";
+
+    const password =
+      passwordElement
+        ? passwordElement.value
+        : "";
 
     if (!email || !password) {
 
@@ -859,8 +895,8 @@
       );
 
       return;
-    }
 
+    }
 
     const {
       data,
@@ -869,7 +905,6 @@
       email: email,
       password: password
     });
-
 
     if (error) {
 
@@ -880,17 +915,24 @@
       );
 
       return;
-    }
 
+    }
 
     currentUser = data.user;
 
     showOwnerMode();
 
-    message.className = "message";
+    if (message) {
+      message.className = "message";
+    }
 
-    document.getElementById("email").value = "";
-    document.getElementById("password").value = "";
+    if (emailElement) {
+      emailElement.value = "";
+    }
+
+    if (passwordElement) {
+      passwordElement.value = "";
+    }
 
   }
 
@@ -900,13 +942,10 @@
     await supabaseClient.auth.signOut();
 
     currentUser = null;
-
     editingFilmId = null;
 
     cancelEdit();
-
     hideOwnerMode();
-
     displayFilms();
 
   }
@@ -914,32 +953,44 @@
 
   function showOwnerMode() {
 
-    document
-      .getElementById("loginBox")
-      .classList.add("hidden");
+    const loginBox =
+      document.getElementById("loginBox");
 
-    document
-      .getElementById("ownerPanel")
-      .classList.remove("hidden");
+    const ownerPanel =
+      document.getElementById("ownerPanel");
+
+    if (loginBox) {
+      loginBox.classList.add("hidden");
+    }
+
+    if (ownerPanel) {
+      ownerPanel.classList.remove("hidden");
+    }
 
   }
 
 
   function hideOwnerMode() {
 
-    document
-      .getElementById("loginBox")
-      .classList.remove("hidden");
+    const loginBox =
+      document.getElementById("loginBox");
 
-    document
-      .getElementById("ownerPanel")
-      .classList.add("hidden");
+    const ownerPanel =
+      document.getElementById("ownerPanel");
+
+    if (loginBox) {
+      loginBox.classList.remove("hidden");
+    }
+
+    if (ownerPanel) {
+      ownerPanel.classList.add("hidden");
+    }
 
   }
 
 
   /* =========================================================
-     TRI
+     TRI ALPHABETIQUE
      ========================================================= */
 
   function sortFilms(items) {
@@ -953,7 +1004,6 @@
         }
       );
 
-
     return [...items].sort(
       function(a, b) {
 
@@ -963,20 +1013,17 @@
         const titleB =
           (b.title || "").trim();
 
-
         const firstA =
           titleA.charAt(0);
 
         const firstB =
           titleB.charAt(0);
 
-
         const isDigitA =
           /^[0-9]/.test(firstA);
 
         const isDigitB =
           /^[0-9]/.test(firstB);
-
 
         if (isDigitA && !isDigitB) {
           return -1;
@@ -985,7 +1032,6 @@
         if (!isDigitA && isDigitB) {
           return 1;
         }
-
 
         return collator.compare(
           titleA,
@@ -1004,31 +1050,53 @@
 
   function displayFilms() {
 
-    const search =
-      document
-        .getElementById("search")
-        .value
-        .trim()
-        .toLowerCase();
+    const searchElement =
+      document.getElementById("search");
 
+    const formatElement =
+      document.getElementById("formatFilter");
+
+    const vfElement =
+      document.getElementById("vfFilter");
+
+    const grid =
+      document.getElementById("filmsGrid");
+
+    const countElement =
+      document.getElementById("filmCount");
+
+    const countBox =
+      document.getElementById("collectionCount");
+
+    if (!grid) {
+      return;
+    }
+
+    const search =
+      searchElement
+        ? searchElement.value.trim().toLowerCase()
+        : "";
 
     const formatFilter =
-      document
-        .getElementById("formatFilter")
-        .value;
-
+      formatElement
+        ? formatElement.value
+        : "";
 
     const vfFilter =
-      document
-        .getElementById("vfFilter")
-        .value;
+      vfElement
+        ? vfElement.value
+        : "";
 
+    /*
+      IMPORTANT :
+      La collection utilise UNIQUEMENT films.
+      La wishlist utilise UNIQUEMENT wishlist.
+    */
 
-    let source =
+    const source =
       currentTab === "collection"
         ? films
         : wishlist;
-
 
     let filteredFilms =
       source.filter(
@@ -1047,21 +1115,17 @@
             .join(" ")
             .toLowerCase();
 
-
           const matchesSearch =
             !search ||
             searchable.includes(search);
-
 
           const matchesFormat =
             !formatFilter ||
             film.format === formatFilter;
 
-
           const matchesVF =
             !vfFilter ||
             film.vf === vfFilter;
-
 
           return (
             matchesSearch &&
@@ -1072,29 +1136,33 @@
         }
       );
 
-
     filteredFilms =
       sortFilms(filteredFilms);
 
+    /*
+      Mise à jour sécurisée du compteur
+    */
 
-    document.getElementById("filmCount").textContent =
-      filteredFilms.length;
+    if (countElement) {
 
+      countElement.textContent =
+        filteredFilms.length;
 
-    document.querySelector(".collection-count").innerHTML =
-      "<strong>" +
-      filteredFilms.length +
-      "</strong> " +
-      (
-        currentTab === "collection"
-          ? "film(s) dans ma collection"
-          : "film(s) dans ma wishlist"
-      );
+    }
 
+    if (countBox) {
 
-    const grid =
-      document.getElementById("filmsGrid");
+      countBox.innerHTML =
+        "<strong>" +
+        filteredFilms.length +
+        "</strong> " +
+        (
+          currentTab === "collection"
+            ? "film(s) dans ma collection"
+            : "film(s) dans ma wishlist"
+        );
 
+    }
 
     if (filteredFilms.length === 0) {
 
@@ -1104,8 +1172,8 @@
           : "<p style='color:#aaa;'>Ta wishlist est vide.</p>";
 
       return;
-    }
 
+    }
 
     grid.innerHTML =
       filteredFilms
@@ -1124,7 +1192,6 @@
   function createFilmCard(film) {
 
     let coverHTML = "";
-
 
     if (film.cover) {
 
@@ -1158,9 +1225,7 @@
 
     }
 
-
     let meta = "";
-
 
     if (film.year) {
 
@@ -1171,7 +1236,6 @@
 
     }
 
-
     if (film.director) {
 
       meta +=
@@ -1180,7 +1244,6 @@
         "<br>";
 
     }
-
 
     if (film.genre) {
 
@@ -1191,7 +1254,6 @@
 
     }
 
-
     if (film.format) {
 
       meta +=
@@ -1201,7 +1263,6 @@
 
     }
 
-
     if (film.vf) {
 
       meta +=
@@ -1210,9 +1271,7 @@
 
     }
 
-
     let actions = "";
-
 
     if (currentUser) {
 
@@ -1221,14 +1280,14 @@
 
           <button
             class="btn-edit"
-            onclick="editFilm('${film.id}')"
+            onclick="editFilm('${escapeHTML(String(film.id))}')"
           >
             ✏️ Modifier
           </button>
 
           <button
             class="btn-delete"
-            onclick="deleteFilm('${film.id}')"
+            onclick="deleteFilm('${escapeHTML(String(film.id))}')"
           >
             🗑️ Supprimer
           </button>
@@ -1237,7 +1296,6 @@
       `;
 
     }
-
 
     return `
       <div class="film-card">
@@ -1277,34 +1335,67 @@
       );
 
       return;
+
     }
 
+    const titleElement =
+      document.getElementById("title");
+
+    const yearElement =
+      document.getElementById("year");
+
+    const directorElement =
+      document.getElementById("director");
+
+    const genreElement =
+      document.getElementById("genre");
+
+    const formatElement =
+      document.getElementById("format");
+
+    const vfElement =
+      document.getElementById("vf");
+
+    const coverElement =
+      document.getElementById("coverFile");
+
+    const message =
+      document.getElementById("formMessage");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    if (!titleElement) {
+
+      showMessage(
+        message,
+        "❌ Le formulaire est introuvable.",
+        "error"
+      );
+
+      return;
+
+    }
 
     const title =
-      document
-        .getElementById("title")
-        .value
-        .trim();
-
+      titleElement.value.trim();
 
     if (!title) {
 
       showMessage(
-        document.getElementById("formMessage"),
+        message,
         "Le titre du film est obligatoire.",
         "error"
       );
 
       return;
+
     }
 
-
     const yearValue =
-      document
-        .getElementById("year")
-        .value
-        .trim();
-
+      yearElement
+        ? yearElement.value.trim()
+        : "";
 
     const filmData = {
 
@@ -1316,56 +1407,53 @@
           : null,
 
       director:
-        document
-          .getElementById("director")
-          .value
-          .trim() || null,
+        directorElement
+          ? directorElement.value.trim() || null
+          : null,
 
       genre:
-        document
-          .getElementById("genre")
-          .value
-          .trim() || null,
+        genreElement
+          ? genreElement.value.trim() || null
+          : null,
 
       format:
-        document
-          .getElementById("format")
-          .value || null,
+        formatElement
+          ? formatElement.value || null
+          : null,
 
       vf:
-        document
-          .getElementById("vf")
-          .value || null
+        vfElement
+          ? vfElement.value || null
+          : null
 
     };
 
-
     const coverFile =
-      document
-        .getElementById("coverFile")
-        .files[0];
+      coverElement &&
+      coverElement.files &&
+      coverElement.files.length > 0
+        ? coverElement.files[0]
+        : null;
 
-
-    const message =
-      document.getElementById("formMessage");
-
-
-    const saveButton =
-      document.getElementById("saveButton");
-
-
-    saveButton.disabled = true;
-
+    if (saveButton) {
+      saveButton.disabled = true;
+    }
 
     try {
+
+      /*
+        IMPORTANT :
+        currentTab détermine directement la table.
+      */
 
       const table =
         currentTab === "collection"
           ? "Films"
           : "Wishlist";
 
-
-      /* MODIFICATION */
+      /*
+        MODIFICATION
+      */
 
       if (editingFilmId) {
 
@@ -1376,7 +1464,6 @@
 
         }
 
-
         const {
           error
         } = await supabaseClient
@@ -1384,11 +1471,9 @@
           .update(filmData)
           .eq("id", editingFilmId);
 
-
         if (error) {
           throw error;
         }
-
 
         showMessage(
           message,
@@ -1398,8 +1483,9 @@
 
       }
 
-
-      /* AJOUT */
+      /*
+        AJOUT
+      */
 
       else {
 
@@ -1415,18 +1501,15 @@
 
         }
 
-
         const {
           error
         } = await supabaseClient
           .from(table)
           .insert([filmData]);
 
-
         if (error) {
           throw error;
         }
-
 
         showMessage(
           message,
@@ -1438,36 +1521,55 @@
 
       }
 
-
       editingFilmId = null;
 
       clearForm();
-
       updateFormMode();
 
+      /*
+        On recharge UNIQUEMENT la bonne table.
+      */
 
       if (currentTab === "collection") {
+
         await loadFilms();
+
       }
       else {
+
         await loadWishlist();
+
       }
+
+      /*
+        Puis on affiche le bon onglet.
+      */
+
+      displayFilms();
 
     }
     catch (error) {
 
-      console.error(error);
+      console.error(
+        "Erreur saveFilm :",
+        error
+      );
 
       showMessage(
         message,
-        "❌ Erreur : " + error.message,
+        "❌ Erreur : " +
+        (error && error.message
+          ? error.message
+          : String(error)),
         "error"
       );
 
     }
     finally {
 
-      saveButton.disabled = false;
+      if (saveButton) {
+        saveButton.disabled = false;
+      }
 
     }
 
@@ -1485,7 +1587,6 @@
         ? films
         : wishlist;
 
-
     const film =
       source.find(
         function(item) {
@@ -1493,48 +1594,38 @@
         }
       );
 
-
     if (!film) {
 
       alert("Film introuvable.");
 
       return;
+
     }
 
-
     editingFilmId = id;
-
 
     document.getElementById("title").value =
       film.title || "";
 
-
     document.getElementById("year").value =
       film.year || "";
-
 
     document.getElementById("director").value =
       film.director || "";
 
-
     document.getElementById("genre").value =
       film.genre || "";
-
 
     document.getElementById("format").value =
       film.format || "";
 
-
     document.getElementById("vf").value =
       film.vf || "";
-
 
     document.getElementById("coverFile").value =
       "";
 
-
     updateFormMode();
-
 
     document
       .getElementById("ownerPanel")
@@ -1557,6 +1648,9 @@
     const cancelButton =
       document.getElementById("cancelEditButton");
 
+    if (!title || !saveButton || !cancelButton) {
+      return;
+    }
 
     if (editingFilmId) {
 
@@ -1593,11 +1687,17 @@
     editingFilmId = null;
 
     clearForm();
-
     updateFormMode();
 
-    document.getElementById("formMessage").className =
-      "message";
+    const message =
+      document.getElementById("formMessage");
+
+    if (message) {
+
+      message.className = "message";
+      message.textContent = "";
+
+    }
 
   }
 
@@ -1612,7 +1712,6 @@
       return null;
     }
 
-
     if (!file.type.startsWith("image/")) {
 
       throw new Error(
@@ -1620,7 +1719,6 @@
       );
 
     }
-
 
     if (file.size > 10 * 1024 * 1024) {
 
@@ -1630,7 +1728,6 @@
 
     }
 
-
     const extension =
       file.name.includes(".")
         ? file.name
@@ -1638,7 +1735,6 @@
             .pop()
             .toLowerCase()
         : "jpg";
-
 
     const fileName =
       currentUser.id +
@@ -1650,7 +1746,6 @@
         .substring(2, 10) +
       "." +
       extension;
-
 
     const {
       error: uploadError
@@ -1666,11 +1761,9 @@
         }
       );
 
-
     if (uploadError) {
       throw uploadError;
     }
-
 
     const {
       data
@@ -1679,7 +1772,6 @@
       .from("covers")
       .getPublicUrl(fileName);
 
-
     if (!data || !data.publicUrl) {
 
       throw new Error(
@@ -1687,7 +1779,6 @@
       );
 
     }
-
 
     return data.publicUrl;
 
@@ -1704,12 +1795,10 @@
       return;
     }
 
-
     const source =
       currentTab === "collection"
         ? films
         : wishlist;
-
 
     const film =
       source.find(
@@ -1718,11 +1807,9 @@
         }
       );
 
-
     if (!film) {
       return;
     }
-
 
     const confirmation =
       confirm(
@@ -1731,17 +1818,14 @@
         '" ?'
       );
 
-
     if (!confirmation) {
       return;
     }
-
 
     const table =
       currentTab === "collection"
         ? "Films"
         : "Wishlist";
-
 
     const {
       error
@@ -1749,7 +1833,6 @@
       .from(table)
       .delete()
       .eq("id", id);
-
 
     if (error) {
 
@@ -1759,15 +1842,21 @@
       );
 
       return;
-    }
 
+    }
 
     if (currentTab === "collection") {
+
       await loadFilms();
+
     }
     else {
+
       await loadWishlist();
+
     }
+
+    displayFilms();
 
   }
 
@@ -1778,13 +1867,28 @@
 
   function clearForm() {
 
-    document.getElementById("title").value = "";
-    document.getElementById("year").value = "";
-    document.getElementById("director").value = "";
-    document.getElementById("genre").value = "";
-    document.getElementById("format").value = "";
-    document.getElementById("vf").value = "";
-    document.getElementById("coverFile").value = "";
+    const ids = [
+      "title",
+      "year",
+      "director",
+      "genre",
+      "format",
+      "vf",
+      "coverFile"
+    ];
+
+    ids.forEach(
+      function(id) {
+
+        const element =
+          document.getElementById(id);
+
+        if (element) {
+          element.value = "";
+        }
+
+      }
+    );
 
   }
 
@@ -1795,11 +1899,26 @@
 
   function resetFilters() {
 
-    document.getElementById("search").value = "";
+    const search =
+      document.getElementById("search");
 
-    document.getElementById("formatFilter").value = "";
+    const format =
+      document.getElementById("formatFilter");
 
-    document.getElementById("vfFilter").value = "";
+    const vf =
+      document.getElementById("vfFilter");
+
+    if (search) {
+      search.value = "";
+    }
+
+    if (format) {
+      format.value = "";
+    }
+
+    if (vf) {
+      vf.value = "";
+    }
 
     displayFilms();
 
@@ -1812,15 +1931,15 @@
 
   function exportFilms() {
 
-    const data = JSON.stringify(
-      {
-        collection: films,
-        wishlist: wishlist
-      },
-      null,
-      2
-    );
-
+    const data =
+      JSON.stringify(
+        {
+          collection: films,
+          wishlist: wishlist
+        },
+        null,
+        2
+      );
 
     const blob =
       new Blob(
@@ -1830,20 +1949,16 @@
         }
       );
 
-
     const url =
       URL.createObjectURL(blob);
 
-
     const a =
       document.createElement("a");
-
 
     a.href = url;
 
     a.download =
       "ma-collection-et-ma-wishlist.json";
-
 
     document.body.appendChild(a);
 
@@ -1869,47 +1984,31 @@
       );
 
       return;
-    }
 
+    }
 
     const file =
       event.target.files[0];
 
-
     if (!file) {
       return;
     }
-
 
     try {
 
       const text =
         await file.text();
 
-
       const imported =
         JSON.parse(text);
 
-
-      /*
-        Nouveau format exporté :
-        {
-          collection: [...],
-          wishlist: [...]
-        }
-
-        Ancien format :
-        [...]
-      */
-
       let collectionToImport = [];
-
       let wishlistToImport = [];
-
 
       if (Array.isArray(imported)) {
 
-        collectionToImport = imported;
+        collectionToImport =
+          imported;
 
       }
       else {
@@ -1925,7 +2024,6 @@
             : [];
 
       }
-
 
       const clean =
         function(list) {
@@ -1963,18 +2061,15 @@
 
         };
 
-
       collectionToImport =
         clean(collectionToImport);
 
       wishlistToImport =
         clean(wishlistToImport);
 
-
       const total =
         collectionToImport.length +
         wishlistToImport.length;
-
 
       if (!confirm(
         "Importer " +
@@ -1985,8 +2080,8 @@
         event.target.value = "";
 
         return;
-      }
 
+      }
 
       if (collectionToImport.length > 0) {
 
@@ -1996,13 +2091,11 @@
           .from("Films")
           .insert(collectionToImport);
 
-
         if (error) {
           throw error;
         }
 
       }
-
 
       if (wishlistToImport.length > 0) {
 
@@ -2012,18 +2105,15 @@
           .from("Wishlist")
           .insert(wishlistToImport);
 
-
         if (error) {
           throw error;
         }
 
       }
 
-
       alert(
         "✅ Import terminé !"
       );
-
 
       await loadAll();
 
@@ -2039,14 +2129,13 @@
 
     }
 
-
     event.target.value = "";
 
   }
 
 
   /* =========================================================
-     SECURITE AFFICHAGE
+     SECURITE
      ========================================================= */
 
   function escapeHTML(value) {
@@ -2070,6 +2159,17 @@
     text,
     type
   ) {
+
+    if (!element) {
+
+      console.error(
+        "Élément de message introuvable :",
+        text
+      );
+
+      return;
+
+    }
 
     element.textContent = text;
 
