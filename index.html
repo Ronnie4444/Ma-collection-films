@@ -549,13 +549,21 @@
     <div class="filters-grid">
 
       <div>
-        <label>
-          🔎 Rechercher
+        <label id="searchLabel">
+          🔎 Rechercher dans ma collection
           <input
             type="text"
-            id="search"
+            id="searchCollection"
             placeholder="Titre, réalisateur, genre..."
             oninput="displayFilms()"
+          >
+
+          <input
+            type="text"
+            id="searchWishlist"
+            placeholder="Rechercher dans ma wishlist..."
+            oninput="displayFilms()"
+            style="display:none;"
           >
         </label>
       </div>
@@ -861,15 +869,27 @@
 
     }
 
-    const search =
-      document.getElementById("search");
+    const collectionSearch =
+      document.getElementById("searchCollection");
 
-    if (search) {
+    const wishlistSearch =
+      document.getElementById("searchWishlist");
 
-      search.placeholder =
+    if (collectionSearch) {
+
+      collectionSearch.style.display =
         tab === "collection"
-          ? "Titre, réalisateur, genre..."
-          : "Rechercher dans la wishlist...";
+          ? "block"
+          : "none";
+
+    }
+
+    if (wishlistSearch) {
+
+      wishlistSearch.style.display =
+        tab === "wishlist"
+          ? "block"
+          : "none";
 
     }
 
@@ -1067,8 +1087,11 @@
 
   function displayFilms() {
 
-    const searchElement =
-      document.getElementById("search");
+    const collectionSearchElement =
+      document.getElementById("searchCollection");
+
+    const wishlistSearchElement =
+      document.getElementById("searchWishlist");
 
     const formatElement =
       document.getElementById("formatFilter");
@@ -1089,9 +1112,14 @@
       return;
     }
 
+    const activeSearchElement =
+      currentTab === "collection"
+        ? collectionSearchElement
+        : wishlistSearchElement;
+
     const search =
-      searchElement
-        ? searchElement.value.trim().toLowerCase()
+      activeSearchElement
+        ? activeSearchElement.value.trim().toLowerCase()
         : "";
 
     const formatFilter =
@@ -1176,7 +1204,7 @@
       grid.innerHTML =
         currentTab === "collection"
           ? "<p style='color:#aaa;'>Aucun film trouvé.</p>"
-          : "<p style='color:#aaa;'>Ta wishlist est vide.</p>";
+          : "<p style='color:#aaa;'>Aucun film trouvé dans la wishlist.</p>";
 
       return;
 
@@ -1885,8 +1913,11 @@
 
   function resetFilters() {
 
-    const search =
-      document.getElementById("search");
+    const collectionSearch =
+      document.getElementById("searchCollection");
+
+    const wishlistSearch =
+      document.getElementById("searchWishlist");
 
     const format =
       document.getElementById("formatFilter");
@@ -1894,8 +1925,19 @@
     const vf =
       document.getElementById("vfFilter");
 
-    if (search) {
-      search.value = "";
+    if (currentTab === "collection") {
+
+      if (collectionSearch) {
+        collectionSearch.value = "";
+      }
+
+    }
+    else {
+
+      if (wishlistSearch) {
+        wishlistSearch.value = "";
+      }
+
     }
 
     if (format) {
