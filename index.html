@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
@@ -16,9 +15,9 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: #111;
-      color: #fff;
+      color: #eee;
     }
 
     header {
@@ -30,7 +29,7 @@
 
     header h1 {
       margin: 0 0 8px;
-      font-size: 32px;
+      font-size: 30px;
     }
 
     header p {
@@ -44,127 +43,190 @@
       padding: 20px;
     }
 
-    .panel {
-      background: #1b1b1b;
-      border-radius: 12px;
-      padding: 20px;
+    /* ONGLET */
+
+    .tabs {
+      display: flex;
+      gap: 10px;
       margin-bottom: 20px;
     }
 
-    .login-panel {
-      text-align: center;
-    }
-
-    .login-panel input {
-      max-width: 400px;
-      margin: 6px auto;
-      display: block;
-    }
-
-    .login-panel button {
-      max-width: 400px;
-      margin: 6px auto;
-      display: block;
-    }
-
-    .admin-badge {
-      color: #6cff8d;
+    .tab {
+      flex: 1;
+      background: #252525;
+      color: #aaa;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 17px;
       font-weight: bold;
-      margin-bottom: 12px;
+      cursor: pointer;
+      margin: 0;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px;
+    .tab.active {
+      background: #e50914;
+      color: white;
+      border-color: #e50914;
+    }
+
+    .login-box,
+    .owner-panel,
+    .filters {
+      background: #1c1c1c;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .login-box h2,
+    .owner-panel h2 {
+      margin-top: 0;
     }
 
     input,
     select,
     button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #444;
+      font-family: inherit;
       font-size: 15px;
     }
 
     input,
     select {
-      background: #252525;
-      color: white;
+      width: 100%;
+      padding: 11px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #111;
+      color: #fff;
+      margin-top: 6px;
     }
 
     button {
-      background: #e50914;
-      color: white;
       border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
       cursor: pointer;
+      margin-top: 10px;
       font-weight: bold;
     }
 
     button:hover {
-      background: #b80710;
+      opacity: 0.85;
     }
 
-    .secondary {
-      background: #333;
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
-    .secondary:hover {
+    .btn-primary {
+      background: #e50914;
+      color: white;
+    }
+
+    .btn-secondary {
       background: #444;
+      color: white;
     }
 
-    .danger {
-      background: #7d0000;
+    .btn-edit {
+      background: #2878d7;
+      color: white;
     }
 
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
+    .btn-delete {
+      background: #9b1c1c;
+      color: white;
     }
 
-    .actions button {
-      width: auto;
+    .btn-cancel {
+      background: #555;
+      color: white;
     }
 
-    .search {
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .form-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      color: #ddd;
+      font-weight: bold;
+    }
+
+    .help {
+      font-size: 12px;
+      color: #999;
+      margin-top: 5px;
+      font-weight: normal;
+    }
+
+    .cover-input {
+      padding: 8px;
+    }
+
+    .owner-status {
+      background: #123b1f;
+      border: 1px solid #246b38;
+      color: #a7e6b6;
+      padding: 10px;
+      border-radius: 8px;
       margin-bottom: 15px;
     }
 
-    .status {
-      margin-top: 10px;
-      color: #aaa;
-      min-height: 20px;
+    .filters-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 12px;
     }
 
-    .films {
+    .collection-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .collection-count {
+      color: #bbb;
+    }
+
+    .films-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 20px;
     }
 
-    .film {
-      background: #1b1b1b;
+    .film-card {
+      background: #1c1c1c;
+      border: 1px solid #333;
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid #292929;
+      display: flex;
+      flex-direction: column;
     }
 
     .film-cover {
       width: 100%;
       aspect-ratio: 2 / 3;
       object-fit: cover;
-      background: #292929;
-      display: block;
+      background: #222;
     }
 
     .no-cover {
       width: 100%;
       aspect-ratio: 2 / 3;
-      background: #292929;
+      background: #252525;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -175,88 +237,99 @@
 
     .film-info {
       padding: 14px;
+      flex: 1;
     }
 
     .film-title {
       font-size: 18px;
       font-weight: bold;
       margin-bottom: 8px;
+      color: white;
     }
 
-    .film-details {
-      color: #aaa;
+    .film-meta {
       font-size: 13px;
+      color: #aaa;
       line-height: 1.6;
     }
 
     .film-actions {
+      padding: 0 14px 14px;
       display: flex;
       gap: 8px;
-      margin-top: 12px;
     }
 
     .film-actions button {
-      padding: 8px;
+      flex: 1;
+      margin-top: 0;
       font-size: 13px;
-    }
-
-    .count {
-      color: #aaa;
-      margin-bottom: 15px;
     }
 
     .hidden {
       display: none !important;
     }
 
-    .cover-label {
-      display: block;
-      margin-bottom: 8px;
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    .cover-input {
-      width: 100%;
-      padding: 10px;
+    .message {
+      padding: 12px;
       border-radius: 8px;
-      border: 1px solid #444;
-      background: #252525;
-      color: white;
-      cursor: pointer;
+      margin-top: 12px;
+      display: none;
     }
 
-    .cover-help {
-      color: #777;
-      font-size: 12px;
-      margin-top: 6px;
+    .message.success {
+      display: block;
+      background: #123b1f;
+      border: 1px solid #246b38;
+      color: #a7e6b6;
     }
 
-    @media (max-width: 600px) {
+    .message.error {
+      display: block;
+      background: #401515;
+      border: 1px solid #762626;
+      color: #ffaaaa;
+    }
 
-      header h1 {
-        font-size: 25px;
+    .edit-title {
+      color: #6faeff;
+    }
+
+    .wishlist-note {
+      color: #aaa;
+      margin-top: 0;
+    }
+
+    @media (max-width: 700px) {
+      .form-grid,
+      .filters-grid {
+        grid-template-columns: 1fr;
       }
 
-      .container {
-        padding: 12px;
-      }
-
-      .films {
+      .films-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
 
       .film-title {
-        font-size: 15px;
+        font-size: 16px;
       }
 
-      .film-info {
-        padding: 10px;
+      .tabs {
+        gap: 6px;
+      }
+
+      .tab {
+        font-size: 14px;
+        padding: 12px 6px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .films-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
-
 </head>
 
 <body>
@@ -268,282 +341,316 @@
 
 <div class="container">
 
-  <!-- CONNEXION -->
-
-  <div class="panel login-panel">
-
-```
-<div id="visitorArea">
-
-  <h2>🔐 Accès propriétaire</h2>
-
-  <p style="color:#aaa;">
-    La collection est consultable librement.<br>
-    Connecte-toi pour ajouter ou supprimer des films.
-  </p>
-
-  <input
-    type="email"
-    id="loginEmail"
-    placeholder="Adresse e-mail"
-  >
-
-  <input
-    type="password"
-    id="loginPassword"
-    placeholder="Mot de passe"
-  >
-
-  <button onclick="login()">
-    Se connecter
-  </button>
-
-  <div id="loginStatus" class="status"></div>
-
-</div>
-
-<div id="adminArea" class="hidden">
-
-  <div class="admin-badge">
-    🔓 Mode propriétaire activé
-  </div>
-
-  <div id="loggedEmail" style="color:#aaa;"></div>
-
-  <div class="actions" style="justify-content:center;">
-
+  <!-- ONGLET -->
+  <div class="tabs">
     <button
-      class="secondary"
-      onclick="logout()"
+      id="collectionTab"
+      class="tab active"
+      onclick="switchTab('collection')"
     >
-      Se déconnecter
+      🎬 Ma collection
     </button>
 
+    <button
+      id="wishlistTab"
+      class="tab"
+      onclick="switchTab('wishlist')"
+    >
+      ❤️ Ma wishlist
+    </button>
   </div>
 
-</div>
-```
+
+  <!-- CONNEXION -->
+  <div class="login-box" id="loginBox">
+
+    <h2>🔐 Mode propriétaire</h2>
+
+    <label>
+      Adresse e-mail
+      <input
+        type="email"
+        id="email"
+        placeholder="Votre adresse e-mail"
+      >
+    </label>
+
+    <label style="margin-top:12px;">
+      Mot de passe
+      <input
+        type="password"
+        id="password"
+        placeholder="Votre mot de passe"
+      >
+    </label>
+
+    <button
+      class="btn-primary"
+      onclick="login()"
+    >
+      Se connecter
+    </button>
+
+    <div id="loginMessage" class="message"></div>
 
   </div>
 
-  <!-- AJOUT FILM -->
 
+  <!-- PANNEAU PROPRIETAIRE -->
   <div
-    class="panel hidden"
-    id="addFilmPanel"
+    class="owner-panel hidden"
+    id="ownerPanel"
   >
 
-```
-<h2>➕ Ajouter un film</h2>
+    <div class="owner-status">
+      🔓 Mode propriétaire activé
+    </div>
 
-<div class="form-grid">
+    <h2 id="formTitle">➕ Ajouter un film</h2>
 
-  <input
-    type="text"
-    id="title"
-    placeholder="Titre du film *"
-  >
+    <div class="form-grid">
 
-  <input
-    type="number"
-    id="year"
-    placeholder="Année"
-  >
+      <div class="form-full">
+        <label>
+          Titre *
+          <input
+            type="text"
+            id="title"
+            placeholder="Exemple : Evil Dead"
+          >
+        </label>
+      </div>
 
-  <input
-    type="text"
-    id="director"
-    placeholder="Réalisateur"
-  >
+      <div>
+        <label>
+          Année
+          <input
+            type="number"
+            id="year"
+            placeholder="1981"
+          >
+        </label>
+      </div>
 
-  <input
-    type="text"
-    id="genre"
-    placeholder="Genre"
-  >
+      <div>
+        <label>
+          Réalisateur
+          <input
+            type="text"
+            id="director"
+            placeholder="Sam Raimi"
+          >
+        </label>
+      </div>
 
-  <select id="format">
-    <option value="">Format</option>
-    <option value="DVD">DVD</option>
-    <option value="Blu-ray">Blu-ray</option>
-    <option value="4K UHD">4K UHD</option>
-    <option value="VHS">VHS</option>
-    <option value="Autre">Autre</option>
-  </select>
+      <div>
+        <label>
+          Genre
+          <input
+            type="text"
+            id="genre"
+            placeholder="Horreur"
+          >
+        </label>
+      </div>
 
-  <select id="vf">
-    <option value="">Version française ?</option>
-    <option value="Oui">Oui</option>
-    <option value="Non">Non</option>
-    <option value="Inconnu">Inconnu</option>
-  </select>
+      <div>
+        <label>
+          Format
+          <select id="format">
+            <option value="">-- Choisir --</option>
+            <option value="DVD">DVD</option>
+            <option value="Blu-ray">Blu-ray</option>
+            <option value="4K UHD">4K UHD</option>
+            <option value="VHS">VHS</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </label>
+      </div>
 
-</div>
+      <div>
+        <label>
+          VF
+          <select id="vf">
+            <option value="">-- Choisir --</option>
+            <option value="Oui">Oui</option>
+            <option value="Non">Non</option>
+            <option value="Inconnu">Inconnu</option>
+          </select>
+        </label>
+      </div>
 
-<div style="margin-top:12px;">
+      <div class="form-full">
+        <label>
+          📷 Jaquette du film
 
-  <label
-    for="coverFile"
-    class="cover-label"
-  >
-    📷 Jaquette du film
-  </label>
+          <input
+            type="file"
+            id="coverFile"
+            class="cover-input"
+            accept="image/*"
+            capture="environment"
+          >
 
-  <input
-    type="file"
-    id="coverFile"
-    class="cover-input"
-    accept="image/*"
-    capture="environment"
-  >
+          <div class="help">
+            Tu peux prendre une photo, choisir une image dans ta galerie
+            ou sélectionner un fichier.
+          </div>
+        </label>
+      </div>
 
-  <div class="cover-help">
-    Tu peux prendre une photo avec ton téléphone,
-    choisir une image dans ta galerie ou sélectionner
-    un fichier téléchargé.
-  </div>
+    </div>
 
-</div>
+    <button
+      class="btn-primary"
+      id="saveButton"
+      onclick="saveFilm()"
+    >
+      ➕ Ajouter le film
+    </button>
 
-<div class="actions">
+    <button
+      class="btn-cancel hidden"
+      id="cancelEditButton"
+      onclick="cancelEdit()"
+    >
+      ✖ Annuler la modification
+    </button>
 
-  <button onclick="addFilm()">
-    Ajouter le film
-  </button>
+    <button
+      class="btn-secondary"
+      onclick="logout()"
+    >
+      🔒 Se déconnecter
+    </button>
 
-  <button
-    class="secondary"
-    onclick="clearForm()"
-  >
-    Effacer
-  </button>
-
-</div>
-
-<div
-  id="status"
-  class="status"
-></div>
-```
-
-  </div>
-
-  <!-- RECHERCHE -->
-
-  <div class="panel">
-
-```
-<h2>🔎 Rechercher dans ma collection</h2>
-
-<input
-  class="search"
-  type="text"
-  id="search"
-  placeholder="Rechercher un titre, réalisateur, genre..."
-  oninput="displayFilms()"
->
-
-<div class="form-grid">
-
-  <select
-    id="filterFormat"
-    onchange="displayFilms()"
-  >
-    <option value="">Tous les formats</option>
-    <option value="DVD">DVD</option>
-    <option value="Blu-ray">Blu-ray</option>
-    <option value="4K UHD">4K UHD</option>
-    <option value="VHS">VHS</option>
-    <option value="Autre">Autre</option>
-  </select>
-
-  <select
-    id="filterVF"
-    onchange="displayFilms()"
-  >
-    <option value="">VF : tous</option>
-    <option value="Oui">VF : Oui</option>
-    <option value="Non">VF : Non</option>
-    <option value="Inconnu">VF : Inconnu</option>
-  </select>
-
-</div>
-```
+    <div id="formMessage" class="message"></div>
 
   </div>
 
-  <!-- SAUVEGARDE -->
 
-  <div
-    class="panel hidden"
-    id="backupPanel"
-  >
+  <!-- FILTRES -->
+  <div class="filters">
 
-```
-<h2>💾 Sauvegarde</h2>
+    <div class="filters-grid">
 
-<p>
-  Les films sont enregistrés dans Supabase.
-</p>
+      <div>
+        <label>
+          🔎 Rechercher
+          <input
+            type="text"
+            id="search"
+            placeholder="Titre, réalisateur, genre..."
+            oninput="displayFilms()"
+          >
+        </label>
+      </div>
 
-<div class="actions">
+      <div>
+        <label>
+          Format
+          <select
+            id="formatFilter"
+            onchange="displayFilms()"
+          >
+            <option value="">Tous</option>
+            <option value="DVD">DVD</option>
+            <option value="Blu-ray">Blu-ray</option>
+            <option value="4K UHD">4K UHD</option>
+            <option value="VHS">VHS</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </label>
+      </div>
 
-  <button
-    class="secondary"
-    onclick="exportFilms()"
-  >
-    Exporter ma collection
-  </button>
+      <div>
+        <label>
+          VF
+          <select
+            id="vfFilter"
+            onchange="displayFilms()"
+          >
+            <option value="">Tous</option>
+            <option value="Oui">Oui</option>
+            <option value="Non">Non</option>
+            <option value="Inconnu">Inconnu</option>
+          </select>
+        </label>
+      </div>
 
-  <button
-    class="secondary"
-    onclick="document.getElementById('importFile').click()"
-  >
-    Importer une collection
-  </button>
+      <div>
+        <label>
+          &nbsp;
+          <button
+            class="btn-secondary"
+            style="width:100%;"
+            onclick="resetFilters()"
+          >
+            Réinitialiser
+          </button>
+        </label>
+      </div>
 
-  <input
-    type="file"
-    id="importFile"
-    accept=".json"
-    class="hidden"
-    onchange="importFilms(event)"
-  >
-
-</div>
-```
+    </div>
 
   </div>
+
 
   <!-- COLLECTION -->
+  <div class="collection-info">
 
-  <div class="panel">
+    <div class="collection-count">
+      <strong id="filmCount">0</strong> film(s)
+    </div>
 
-```
-<h2>🎞️ Mes films</h2>
+    <div>
+      <button
+        class="btn-secondary"
+        onclick="exportFilms()"
+      >
+        💾 Exporter
+      </button>
 
-<div
-  id="count"
-  class="count"
->
-  Chargement...
-</div>
+      <label
+        style="
+          display:inline-block;
+          margin-left:5px;
+          font-weight:normal;
+        "
+      >
+        <input
+          type="file"
+          id="importFile"
+          accept=".json"
+          style="display:none;"
+          onchange="importFilms(event)"
+        >
 
-<div
-  id="films"
-  class="films"
-></div>
-```
+        <button
+          class="btn-secondary"
+          onclick="document.getElementById('importFile').click()"
+        >
+          📥 Importer
+        </button>
+      </label>
+    </div>
 
   </div>
 
+
+  <div
+    id="filmsGrid"
+    class="films-grid"
+  ></div>
+
 </div>
+
 
 <script>
 
-  /* ============================================================
+  /* =========================================================
      SUPABASE
-     ============================================================ */
+     ========================================================= */
 
   const SUPABASE_URL =
     "https://nhiektoatqmwjtcbvvsi.supabase.co";
@@ -551,205 +658,82 @@
   const SUPABASE_KEY =
     "sb_publishable_sAX3n8pDc5P8sUxIsrjF3g_SRxCx6Hb";
 
-
   const supabaseClient =
-    window.supabase.createClient(
+    supabase.createClient(
       SUPABASE_URL,
       SUPABASE_KEY
     );
 
 
+  /* =========================================================
+     VARIABLES
+     ========================================================= */
+
   let films = [];
+
+  let wishlist = [];
 
   let currentUser = null;
 
+  let editingFilmId = null;
 
-  /* ============================================================
-     UTILITAIRES
-     ============================================================ */
+  let currentTab = "collection";
 
-  function setStatus(message) {
 
-    document.getElementById("status")
-      .textContent = message;
+  /* =========================================================
+     INITIALISATION
+     ========================================================= */
 
-  }
+  document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
 
+      const {
+        data: {
+          session
+        }
+      } = await supabaseClient.auth.getSession();
 
-  function escapeHTML(value) {
+      if (session) {
+        currentUser = session.user;
+        showOwnerMode();
+      }
 
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  function escapeAttribute(value) {
-
-    return String(value)
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  /* ============================================================
-     CONNEXION
-     ============================================================ */
-
-  async function login() {
-
-    const email =
-      document.getElementById("loginEmail")
-        .value
-        .trim();
-
-    const password =
-      document.getElementById("loginPassword")
-        .value;
-
-
-    if (!email || !password) {
-
-      document.getElementById("loginStatus")
-        .textContent =
-        "⚠️ Entre ton adresse e-mail et ton mot de passe.";
-
-      return;
-    }
-
-
-    document.getElementById("loginStatus")
-      .textContent =
-      "Connexion...";
-
-
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-
-        email: email,
-
-        password: password
-
-      });
-
-
-    if (error) {
-
-      console.error(error);
-
-      document.getElementById("loginStatus")
-        .textContent =
-        "❌ " + error.message;
-
-      return;
-    }
-
-
-    currentUser = data.user;
-
-    updateInterface();
-
-    document.getElementById("loginStatus")
-      .textContent = "";
-
-  }
-
-
-  /* ============================================================
-     DÉCONNEXION
-     ============================================================ */
-
-  async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    currentUser = null;
-
-    updateInterface();
-
-  }
-
-
-  /* ============================================================
-     INTERFACE
-     ============================================================ */
-
-  function updateInterface() {
-
-    const visitorArea =
-      document.getElementById("visitorArea");
-
-    const adminArea =
-      document.getElementById("adminArea");
-
-    const addPanel =
-      document.getElementById("addFilmPanel");
-
-    const backupPanel =
-      document.getElementById("backupPanel");
-
-
-    if (currentUser) {
-
-      visitorArea.classList.add("hidden");
-
-      adminArea.classList.remove("hidden");
-
-      addPanel.classList.remove("hidden");
-
-      backupPanel.classList.remove("hidden");
-
-
-      document.getElementById("loggedEmail")
-        .textContent =
-        currentUser.email;
-
-    } else {
-
-      visitorArea.classList.remove("hidden");
-
-      adminArea.classList.add("hidden");
-
-      addPanel.classList.add("hidden");
-
-      backupPanel.classList.add("hidden");
+      await loadAll();
 
     }
+  );
 
 
-    displayFilms();
+  /* =========================================================
+     CHARGEMENT
+     ========================================================= */
+
+  async function loadAll() {
+
+    await loadFilms();
+
+    await loadWishlist();
 
   }
 
-
-  /* ============================================================
-     CHARGEMENT COLLECTION
-     ============================================================ */
 
   async function loadFilms() {
 
-    const { data, error } =
-      await supabaseClient
-        .from("Films")
-        .select("*")
-        .order("title", {
-          ascending: true
-        });
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("Films")
+      .select("*");
 
 
     if (error) {
 
       console.error(error);
 
-      document.getElementById("count")
-        .textContent =
-        "❌ Erreur de chargement : " +
-        error.message;
+      document.getElementById("filmsGrid").innerHTML =
+        "<p>Impossible de charger les films.</p>";
 
       return;
     }
@@ -757,271 +741,882 @@
 
     films = data || [];
 
+    if (currentTab === "collection") {
+      displayFilms();
+    }
+
+  }
+
+
+  async function loadWishlist() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("Wishlist")
+      .select("*");
+
+
+    if (error) {
+
+      console.error(error);
+
+      return;
+    }
+
+
+    wishlist = data || [];
+
+    if (currentTab === "wishlist") {
+      displayFilms();
+    }
+
+  }
+
+
+  /* =========================================================
+     ONGLET
+     ========================================================= */
+
+  function switchTab(tab) {
+
+    currentTab = tab;
+
+    editingFilmId = null;
+
+    clearForm();
+
+    updateFormMode();
+
+    document
+      .getElementById("formMessage")
+      .className = "message";
+
+
+    document
+      .getElementById("collectionTab")
+      .classList.toggle(
+        "active",
+        tab === "collection"
+      );
+
+
+    document
+      .getElementById("wishlistTab")
+      .classList.toggle(
+        "active",
+        tab === "wishlist"
+      );
+
+
+    if (tab === "collection") {
+
+      document.getElementById("search").placeholder =
+        "Titre, réalisateur, genre...";
+
+    }
+    else {
+
+      document.getElementById("search").placeholder =
+        "Rechercher dans la wishlist...";
+
+    }
+
+
     displayFilms();
 
   }
 
 
-  /* ============================================================
+  /* =========================================================
+     AUTHENTIFICATION
+     ========================================================= */
+
+  async function login() {
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+    const message =
+      document.getElementById("loginMessage");
+
+
+    if (!email || !password) {
+
+      showMessage(
+        message,
+        "Veuillez renseigner votre e-mail et votre mot de passe.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const {
+      data,
+      error
+    } = await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+
+    if (error) {
+
+      showMessage(
+        message,
+        "Erreur de connexion : " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    currentUser = data.user;
+
+    showOwnerMode();
+
+    message.className = "message";
+
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+
+  }
+
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    currentUser = null;
+
+    editingFilmId = null;
+
+    cancelEdit();
+
+    hideOwnerMode();
+
+    displayFilms();
+
+  }
+
+
+  function showOwnerMode() {
+
+    document
+      .getElementById("loginBox")
+      .classList.add("hidden");
+
+    document
+      .getElementById("ownerPanel")
+      .classList.remove("hidden");
+
+  }
+
+
+  function hideOwnerMode() {
+
+    document
+      .getElementById("loginBox")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("ownerPanel")
+      .classList.add("hidden");
+
+  }
+
+
+  /* =========================================================
+     TRI
+     ========================================================= */
+
+  function sortFilms(items) {
+
+    const collator =
+      new Intl.Collator(
+        "fr",
+        {
+          numeric: true,
+          sensitivity: "base"
+        }
+      );
+
+
+    return [...items].sort(
+      function(a, b) {
+
+        const titleA =
+          (a.title || "").trim();
+
+        const titleB =
+          (b.title || "").trim();
+
+
+        const firstA =
+          titleA.charAt(0);
+
+        const firstB =
+          titleB.charAt(0);
+
+
+        const isDigitA =
+          /^[0-9]/.test(firstA);
+
+        const isDigitB =
+          /^[0-9]/.test(firstB);
+
+
+        if (isDigitA && !isDigitB) {
+          return -1;
+        }
+
+        if (!isDigitA && isDigitB) {
+          return 1;
+        }
+
+
+        return collator.compare(
+          titleA,
+          titleB
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
      AFFICHAGE
-     ============================================================ */
+     ========================================================= */
 
   function displayFilms() {
 
-    const container =
-      document.getElementById("films");
-
-
     const search =
-      document.getElementById("search")
+      document
+        .getElementById("search")
         .value
-        .toLowerCase()
-        .trim();
+        .trim()
+        .toLowerCase();
 
 
-    const filterFormat =
-      document.getElementById("filterFormat")
+    const formatFilter =
+      document
+        .getElementById("formatFilter")
         .value;
 
 
-    const filterVF =
-      document.getElementById("filterVF")
+    const vfFilter =
+      document
+        .getElementById("vfFilter")
         .value;
 
 
-    const filtered =
-      films.filter(film => {
-
-        const text = (
-
-          (film.title || "") +
-          " " +
-          (film.director || "") +
-          " " +
-          (film.genre || "") +
-          " " +
-          (film.year || "")
-
-        ).toLowerCase();
+    let source =
+      currentTab === "collection"
+        ? films
+        : wishlist;
 
 
-        if (
-          search &&
-          !text.includes(search)
-        ) {
+    let filteredFilms =
+      source.filter(
+        function(film) {
 
-          return false;
+          const searchable =
+            [
+              film.title,
+              film.year,
+              film.director,
+              film.genre,
+              film.format,
+              film.vf
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+
+          const matchesSearch =
+            !search ||
+            searchable.includes(search);
+
+
+          const matchesFormat =
+            !formatFilter ||
+            film.format === formatFilter;
+
+
+          const matchesVF =
+            !vfFilter ||
+            film.vf === vfFilter;
+
+
+          return (
+            matchesSearch &&
+            matchesFormat &&
+            matchesVF
+          );
 
         }
+      );
 
 
-        if (
-          filterFormat &&
-          film.format !== filterFormat
-        ) {
-
-          return false;
-
-        }
+    filteredFilms =
+      sortFilms(filteredFilms);
 
 
-        if (
-          filterVF &&
-          film.vf !== filterVF
-        ) {
-
-          return false;
-
-        }
+    document.getElementById("filmCount").textContent =
+      filteredFilms.length;
 
 
-        return true;
-
-      });
-
-
-    document.getElementById("count")
-      .textContent =
-      filtered.length +
-      " film" +
-      (filtered.length > 1 ? "s" : "") +
-      " affiché" +
-      (filtered.length > 1 ? "s" : "") +
-      " / " +
-      films.length +
-      " au total";
+    document.querySelector(".collection-count").innerHTML =
+      "<strong>" +
+      filteredFilms.length +
+      "</strong> " +
+      (
+        currentTab === "collection"
+          ? "film(s) dans ma collection"
+          : "film(s) dans ma wishlist"
+      );
 
 
-    container.innerHTML = "";
+    const grid =
+      document.getElementById("filmsGrid");
 
 
-    if (filtered.length === 0) {
+    if (filteredFilms.length === 0) {
 
-      container.innerHTML =
-        "<p style='color:#888;'>Aucun film trouvé.</p>";
+      grid.innerHTML =
+        currentTab === "collection"
+          ? "<p style='color:#aaa;'>Aucun film trouvé.</p>"
+          : "<p style='color:#aaa;'>Ta wishlist est vide.</p>";
 
       return;
+    }
+
+
+    grid.innerHTML =
+      filteredFilms
+        .map(
+          film => createFilmCard(film)
+        )
+        .join("");
+
+  }
+
+
+  /* =========================================================
+     CARTE
+     ========================================================= */
+
+  function createFilmCard(film) {
+
+    let coverHTML = "";
+
+
+    if (film.cover) {
+
+      coverHTML = `
+        <img
+          src="${escapeHTML(film.cover)}"
+          alt="Jaquette de ${escapeHTML(film.title || "")}"
+          class="film-cover"
+          loading="lazy"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        >
+
+        <div
+          class="no-cover"
+          style="display:none;"
+        >
+          🖼️<br>
+          Jaquette indisponible
+        </div>
+      `;
+
+    }
+    else {
+
+      coverHTML = `
+        <div class="no-cover">
+          🖼️<br>
+          Pas de jaquette
+        </div>
+      `;
 
     }
 
 
-    filtered.forEach(film => {
-
-      const card =
-        document.createElement("div");
-
-      card.className = "film";
+    let meta = "";
 
 
-      let coverHTML = "";
+    if (film.year) {
+
+      meta +=
+        "📅 " +
+        escapeHTML(String(film.year)) +
+        "<br>";
+
+    }
 
 
-      if (film.cover) {
+    if (film.director) {
 
-        coverHTML =
+      meta +=
+        "🎬 " +
+        escapeHTML(film.director) +
+        "<br>";
 
-          `<img
-            class="film-cover"
-            src="${escapeAttribute(film.cover)}"
-            alt="Jaquette de ${escapeHTML(film.title || "")}"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    }
+
+
+    if (film.genre) {
+
+      meta +=
+        "🎭 " +
+        escapeHTML(film.genre) +
+        "<br>";
+
+    }
+
+
+    if (film.format) {
+
+      meta +=
+        "💿 " +
+        escapeHTML(film.format) +
+        "<br>";
+
+    }
+
+
+    if (film.vf) {
+
+      meta +=
+        "🇫🇷 VF : " +
+        escapeHTML(film.vf);
+
+    }
+
+
+    let actions = "";
+
+
+    if (currentUser) {
+
+      actions = `
+        <div class="film-actions">
+
+          <button
+            class="btn-edit"
+            onclick="editFilm('${film.id}')"
           >
+            ✏️ Modifier
+          </button>
 
-          <div
-            class="no-cover"
-            style="display:none;"
+          <button
+            class="btn-delete"
+            onclick="deleteFilm('${film.id}')"
           >
-            Pas de jaquette
-          </div>`;
+            🗑️ Supprimer
+          </button>
 
-      } else {
+        </div>
+      `;
 
-        coverHTML =
-
-          `<div class="no-cover">
-            Pas de jaquette
-          </div>`;
-
-      }
+    }
 
 
-      let deleteButton = "";
-
-
-      if (currentUser) {
-
-        deleteButton =
-
-          `<div class="film-actions">
-
-            <button
-              class="danger"
-              onclick="deleteFilm(${film.id})"
-            >
-              Supprimer
-            </button>
-
-          </div>`;
-
-      }
-
-
-      card.innerHTML = `
+    return `
+      <div class="film-card">
 
         ${coverHTML}
 
         <div class="film-info">
 
           <div class="film-title">
-            ${escapeHTML(
-              film.title || "Sans titre"
-            )}
+            ${escapeHTML(film.title || "Sans titre")}
           </div>
 
-          <div class="film-details">
-
-            ${
-              film.year
-                ? "📅 " +
-                  escapeHTML(
-                    String(film.year)
-                  ) +
-                  "<br>"
-                : ""
-            }
-
-            ${
-              film.director
-                ? "🎬 " +
-                  escapeHTML(
-                    film.director
-                  ) +
-                  "<br>"
-                : ""
-            }
-
-            ${
-              film.genre
-                ? "🎭 " +
-                  escapeHTML(
-                    film.genre
-                  ) +
-                  "<br>"
-                : ""
-            }
-
-            ${
-              film.format
-                ? "💿 " +
-                  escapeHTML(
-                    film.format
-                  ) +
-                  "<br>"
-                : ""
-            }
-
-            ${
-              film.vf
-                ? "🇫🇷 VF : " +
-                  escapeHTML(
-                    film.vf
-                  )
-                : ""
-            }
-
+          <div class="film-meta">
+            ${meta}
           </div>
-
-          ${deleteButton}
 
         </div>
 
-      `;
+        ${actions}
 
-
-      container.appendChild(card);
-
-    });
+      </div>
+    `;
 
   }
 
 
-  /* ============================================================
-     UPLOAD JAQUETTE
-     ============================================================ */
+  /* =========================================================
+     AJOUT / MODIFICATION
+     ========================================================= */
+
+  async function saveFilm() {
+
+    if (!currentUser) {
+
+      alert(
+        "Vous devez être connecté pour modifier la collection."
+      );
+
+      return;
+    }
+
+
+    const title =
+      document
+        .getElementById("title")
+        .value
+        .trim();
+
+
+    if (!title) {
+
+      showMessage(
+        document.getElementById("formMessage"),
+        "Le titre du film est obligatoire.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    const yearValue =
+      document
+        .getElementById("year")
+        .value
+        .trim();
+
+
+    const filmData = {
+
+      title: title,
+
+      year:
+        yearValue
+          ? Number(yearValue)
+          : null,
+
+      director:
+        document
+          .getElementById("director")
+          .value
+          .trim() || null,
+
+      genre:
+        document
+          .getElementById("genre")
+          .value
+          .trim() || null,
+
+      format:
+        document
+          .getElementById("format")
+          .value || null,
+
+      vf:
+        document
+          .getElementById("vf")
+          .value || null
+
+    };
+
+
+    const coverFile =
+      document
+        .getElementById("coverFile")
+        .files[0];
+
+
+    const message =
+      document.getElementById("formMessage");
+
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+
+    saveButton.disabled = true;
+
+
+    try {
+
+      const table =
+        currentTab === "collection"
+          ? "Films"
+          : "Wishlist";
+
+
+      /* MODIFICATION */
+
+      if (editingFilmId) {
+
+        if (coverFile) {
+
+          filmData.cover =
+            await uploadCover(coverFile);
+
+        }
+
+
+        const {
+          error
+        } = await supabaseClient
+          .from(table)
+          .update(filmData)
+          .eq("id", editingFilmId);
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        showMessage(
+          message,
+          "✅ Film modifié avec succès !",
+          "success"
+        );
+
+      }
+
+
+      /* AJOUT */
+
+      else {
+
+        if (coverFile) {
+
+          filmData.cover =
+            await uploadCover(coverFile);
+
+        }
+        else {
+
+          filmData.cover = null;
+
+        }
+
+
+        const {
+          error
+        } = await supabaseClient
+          .from(table)
+          .insert([filmData]);
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        showMessage(
+          message,
+          currentTab === "collection"
+            ? "✅ Film ajouté à la collection !"
+            : "❤️ Film ajouté à la wishlist !",
+          "success"
+        );
+
+      }
+
+
+      editingFilmId = null;
+
+      clearForm();
+
+      updateFormMode();
+
+
+      if (currentTab === "collection") {
+        await loadFilms();
+      }
+      else {
+        await loadWishlist();
+      }
+
+    }
+    catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        message,
+        "❌ Erreur : " + error.message,
+        "error"
+      );
+
+    }
+    finally {
+
+      saveButton.disabled = false;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     MODIFICATION
+     ========================================================= */
+
+  function editFilm(id) {
+
+    const source =
+      currentTab === "collection"
+        ? films
+        : wishlist;
+
+
+    const film =
+      source.find(
+        function(item) {
+          return String(item.id) === String(id);
+        }
+      );
+
+
+    if (!film) {
+
+      alert("Film introuvable.");
+
+      return;
+    }
+
+
+    editingFilmId = id;
+
+
+    document.getElementById("title").value =
+      film.title || "";
+
+
+    document.getElementById("year").value =
+      film.year || "";
+
+
+    document.getElementById("director").value =
+      film.director || "";
+
+
+    document.getElementById("genre").value =
+      film.genre || "";
+
+
+    document.getElementById("format").value =
+      film.format || "";
+
+
+    document.getElementById("vf").value =
+      film.vf || "";
+
+
+    document.getElementById("coverFile").value =
+      "";
+
+
+    updateFormMode();
+
+
+    document
+      .getElementById("ownerPanel")
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+  }
+
+
+  function updateFormMode() {
+
+    const title =
+      document.getElementById("formTitle");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const cancelButton =
+      document.getElementById("cancelEditButton");
+
+
+    if (editingFilmId) {
+
+      title.innerHTML =
+        "✏️ <span class='edit-title'>Modifier le film</span>";
+
+      saveButton.innerHTML =
+        "💾 Enregistrer les modifications";
+
+      cancelButton.classList.remove("hidden");
+
+    }
+    else {
+
+      title.innerHTML =
+        currentTab === "collection"
+          ? "➕ Ajouter un film"
+          : "❤️ Ajouter à la wishlist";
+
+      saveButton.innerHTML =
+        currentTab === "collection"
+          ? "➕ Ajouter le film"
+          : "❤️ Ajouter à la wishlist";
+
+      cancelButton.classList.add("hidden");
+
+    }
+
+  }
+
+
+  function cancelEdit() {
+
+    editingFilmId = null;
+
+    clearForm();
+
+    updateFormMode();
+
+    document.getElementById("formMessage").className =
+      "message";
+
+  }
+
+
+  /* =========================================================
+     JAQUETTE
+     ========================================================= */
 
   async function uploadCover(file) {
 
     if (!file) {
-
       return null;
-
     }
 
 
     if (!file.type.startsWith("image/")) {
 
       throw new Error(
-        "Le fichier choisi n'est pas une image."
+        "Le fichier sélectionné n'est pas une image."
       );
 
     }
@@ -1030,7 +1625,7 @@
     if (file.size > 10 * 1024 * 1024) {
 
       throw new Error(
-        "La jaquette est trop volumineuse. Maximum : 10 Mo."
+        "L'image est trop volumineuse. Maximum : 10 Mo."
       );
 
     }
@@ -1045,13 +1640,6 @@
         : "jpg";
 
 
-    const safeExtension =
-      extension.replace(
-        /[^a-z0-9]/gi,
-        ""
-      ) || "jpg";
-
-
     const fileName =
       currentUser.id +
       "/" +
@@ -1061,46 +1649,35 @@
         .toString(36)
         .substring(2, 10) +
       "." +
-      safeExtension;
+      extension;
 
 
-    setStatus(
-      "📷 Envoi de la jaquette..."
-    );
-
-
-    const { error } =
-      await supabaseClient
-        .storage
-        .from("covers")
-        .upload(
-          fileName,
-          file,
-          {
-            cacheControl: "3600",
-            upsert: false,
-            contentType: file.type
-          }
-        );
-
-
-    if (error) {
-
-      console.error(error);
-
-      throw new Error(
-        "Impossible d'envoyer la jaquette : " +
-        error.message
+    const {
+      error: uploadError
+    } = await supabaseClient
+      .storage
+      .from("covers")
+      .upload(
+        fileName,
+        file,
+        {
+          cacheControl: "3600",
+          upsert: false
+        }
       );
 
+
+    if (uploadError) {
+      throw uploadError;
     }
 
 
-    const { data } =
-      supabaseClient
-        .storage
-        .from("covers")
-        .getPublicUrl(fileName);
+    const {
+      data
+    } = supabaseClient
+      .storage
+      .from("covers")
+      .getPublicUrl(fileName);
 
 
     if (!data || !data.publicUrl) {
@@ -1117,293 +1694,137 @@
   }
 
 
-  /* ============================================================
-     AJOUT FILM
-     ============================================================ */
-
-  async function addFilm() {
-
-    if (!currentUser) {
-
-      setStatus(
-        "❌ Tu dois être connecté."
-      );
-
-      return;
-
-    }
-
-
-    const title =
-      document.getElementById("title")
-        .value
-        .trim();
-
-
-    if (!title) {
-
-      setStatus(
-        "⚠️ Le titre du film est obligatoire."
-      );
-
-      return;
-
-    }
-
-
-    const yearValue =
-      document.getElementById("year")
-        .value;
-
-
-    const coverFile =
-      document.getElementById("coverFile")
-        .files[0];
-
-
-    try {
-
-      let coverUrl = null;
-
-
-      if (coverFile) {
-
-        coverUrl =
-          await uploadCover(
-            coverFile
-          );
-
-      }
-
-
-      const film = {
-
-        title: title,
-
-        year:
-          yearValue
-            ? parseInt(yearValue)
-            : null,
-
-        director:
-          document.getElementById("director")
-            .value
-            .trim() || null,
-
-        genre:
-          document.getElementById("genre")
-            .value
-            .trim() || null,
-
-        format:
-          document.getElementById("format")
-            .value || null,
-
-        vf:
-          document.getElementById("vf")
-            .value || null,
-
-        cover:
-          coverUrl
-
-      };
-
-
-      setStatus(
-        "🎬 Ajout du film..."
-      );
-
-
-      const { data, error } =
-        await supabaseClient
-          .from("Films")
-          .insert([film])
-          .select();
-
-
-      if (error) {
-
-        console.error(error);
-
-        throw new Error(
-          "Impossible d'ajouter le film : " +
-          error.message
-        );
-
-      }
-
-
-      if (data && data.length) {
-
-        films.push(data[0]);
-
-      }
-
-
-      clearForm();
-
-      displayFilms();
-
-
-      setStatus(
-        "✅ " +
-        title +
-        " a été ajouté."
-      );
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-      setStatus(
-        "❌ " +
-        error.message
-      );
-
-    }
-
-  }
-
-
-  /* ============================================================
+  /* =========================================================
      SUPPRESSION
-     ============================================================ */
+     ========================================================= */
 
   async function deleteFilm(id) {
 
     if (!currentUser) {
-
       return;
-
     }
 
 
+    const source =
+      currentTab === "collection"
+        ? films
+        : wishlist;
+
+
     const film =
-      films.find(
-        f => f.id === id
+      source.find(
+        function(item) {
+          return String(item.id) === String(id);
+        }
       );
 
 
     if (!film) {
-
       return;
-
     }
 
 
     const confirmation =
       confirm(
-        'Supprimer "' +
+        'Voulez-vous vraiment supprimer "' +
         film.title +
-        '" de ta collection ?'
+        '" ?'
       );
 
 
     if (!confirmation) {
-
       return;
-
     }
 
 
-    setStatus(
-      "Suppression..."
-    );
+    const table =
+      currentTab === "collection"
+        ? "Films"
+        : "Wishlist";
 
 
-    const { error } =
-      await supabaseClient
-        .from("Films")
-        .delete()
-        .eq("id", id);
+    const {
+      error
+    } = await supabaseClient
+      .from(table)
+      .delete()
+      .eq("id", id);
 
 
     if (error) {
 
-      console.error(error);
-
-      setStatus(
-        "❌ Erreur : " +
+      alert(
+        "Erreur lors de la suppression : " +
         error.message
       );
 
       return;
-
     }
 
 
-    films =
-      films.filter(
-        f => f.id !== id
-      );
-
-
-    displayFilms();
-
-
-    setStatus(
-      "🗑️ Film supprimé."
-    );
+    if (currentTab === "collection") {
+      await loadFilms();
+    }
+    else {
+      await loadWishlist();
+    }
 
   }
 
 
-  /* ============================================================
+  /* =========================================================
      FORMULAIRE
-     ============================================================ */
+     ========================================================= */
 
   function clearForm() {
 
-    document.getElementById("title")
-      .value = "";
-
-    document.getElementById("year")
-      .value = "";
-
-    document.getElementById("director")
-      .value = "";
-
-    document.getElementById("genre")
-      .value = "";
-
-    document.getElementById("format")
-      .value = "";
-
-    document.getElementById("vf")
-      .value = "";
-
-    document.getElementById("coverFile")
-      .value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("year").value = "";
+    document.getElementById("director").value = "";
+    document.getElementById("genre").value = "";
+    document.getElementById("format").value = "";
+    document.getElementById("vf").value = "";
+    document.getElementById("coverFile").value = "";
 
   }
 
 
-  /* ============================================================
+  /* =========================================================
+     FILTRES
+     ========================================================= */
+
+  function resetFilters() {
+
+    document.getElementById("search").value = "";
+
+    document.getElementById("formatFilter").value = "";
+
+    document.getElementById("vfFilter").value = "";
+
+    displayFilms();
+
+  }
+
+
+  /* =========================================================
      EXPORT
-     ============================================================ */
+     ========================================================= */
 
   function exportFilms() {
 
-    if (!currentUser) {
-
-      return;
-
-    }
-
-
-    const json =
-      JSON.stringify(
-        films,
-        null,
-        2
-      );
+    const data = JSON.stringify(
+      {
+        collection: films,
+        wishlist: wishlist
+      },
+      null,
+      2
+    );
 
 
     const blob =
       new Blob(
-        [json],
+        [data],
         {
           type: "application/json"
         }
@@ -1421,27 +1842,33 @@
     a.href = url;
 
     a.download =
-      "ma-collection-films.json";
+      "ma-collection-et-ma-wishlist.json";
 
+
+    document.body.appendChild(a);
 
     a.click();
 
+    a.remove();
 
     URL.revokeObjectURL(url);
 
   }
 
 
-  /* ============================================================
+  /* =========================================================
      IMPORT
-     ============================================================ */
+     ========================================================= */
 
   async function importFilms(event) {
 
     if (!currentUser) {
 
-      return;
+      alert(
+        "Vous devez être connecté pour importer des films."
+      );
 
+      return;
     }
 
 
@@ -1450,9 +1877,7 @@
 
 
     if (!file) {
-
       return;
-
     }
 
 
@@ -1466,78 +1891,149 @@
         JSON.parse(text);
 
 
-      if (!Array.isArray(imported)) {
+      /*
+        Nouveau format exporté :
+        {
+          collection: [...],
+          wishlist: [...]
+        }
 
-        throw new Error(
-          "Fichier invalide."
-        );
+        Ancien format :
+        [...]
+      */
+
+      let collectionToImport = [];
+
+      let wishlistToImport = [];
+
+
+      if (Array.isArray(imported)) {
+
+        collectionToImport = imported;
+
+      }
+      else {
+
+        collectionToImport =
+          Array.isArray(imported.collection)
+            ? imported.collection
+            : [];
+
+        wishlistToImport =
+          Array.isArray(imported.wishlist)
+            ? imported.wishlist
+            : [];
 
       }
 
 
-      const cleanFilms =
-        imported.map(film => ({
+      const clean =
+        function(list) {
 
-          title:
-            film.title ||
-            "Sans titre",
+          return list.map(
+            function(film) {
 
-          year:
-            film.year
-              ? parseInt(film.year)
-              : null,
+              return {
 
-          director:
-            film.director ||
-            null,
+                title:
+                  film.title || "",
 
-          genre:
-            film.genre ||
-            null,
+                year:
+                  film.year || null,
 
-          format:
-            film.format ||
-            null,
+                director:
+                  film.director || null,
 
-          vf:
-            film.vf ||
-            null,
+                genre:
+                  film.genre || null,
 
-          cover:
-            film.cover ||
-            null
+                format:
+                  film.format || null,
 
-        }));
+                vf:
+                  film.vf || null,
+
+                cover:
+                  film.cover || null
+
+              };
+
+            }
+          );
+
+        };
 
 
-      const { error } =
-        await supabaseClient
+      collectionToImport =
+        clean(collectionToImport);
+
+      wishlistToImport =
+        clean(wishlistToImport);
+
+
+      const total =
+        collectionToImport.length +
+        wishlistToImport.length;
+
+
+      if (!confirm(
+        "Importer " +
+        total +
+        " film(s) ?"
+      )) {
+
+        event.target.value = "";
+
+        return;
+      }
+
+
+      if (collectionToImport.length > 0) {
+
+        const {
+          error
+        } = await supabaseClient
           .from("Films")
-          .insert(cleanFilms);
+          .insert(collectionToImport);
 
 
-      if (error) {
-
-        throw error;
+        if (error) {
+          throw error;
+        }
 
       }
 
 
-      await loadFilms();
+      if (wishlistToImport.length > 0) {
+
+        const {
+          error
+        } = await supabaseClient
+          .from("Wishlist")
+          .insert(wishlistToImport);
 
 
-      setStatus(
-        "✅ Collection importée."
+        if (error) {
+          throw error;
+        }
+
+      }
+
+
+      alert(
+        "✅ Import terminé !"
       );
 
-    }
 
+      await loadAll();
+
+    }
     catch (error) {
 
       console.error(error);
 
-      setStatus(
-        "❌ Erreur d'importation : " +
+      alert(
+        "❌ Erreur lors de l'import : " +
         error.message
       );
 
@@ -1549,48 +2045,38 @@
   }
 
 
-  /* ============================================================
-     DÉMARRAGE
-     ============================================================ */
+  /* =========================================================
+     SECURITE AFFICHAGE
+     ========================================================= */
 
-  async function startApp() {
+  function escapeHTML(value) {
 
-    const {
-      data: {
-        session
-      }
-    } =
-      await supabaseClient.auth.getSession();
-
-
-    currentUser =
-      session
-        ? session.user
-        : null;
-
-
-    updateInterface();
-
-    await loadFilms();
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
 
   }
 
 
-  supabaseClient.auth.onAuthStateChange(
-    (_event, session) => {
+  /* =========================================================
+     MESSAGES
+     ========================================================= */
 
-      currentUser =
-        session
-          ? session.user
-          : null;
+  function showMessage(
+    element,
+    text,
+    type
+  ) {
 
-      updateInterface();
+    element.textContent = text;
 
-    }
-  );
+    element.className =
+      "message " + type;
 
-
-  startApp();
+  }
 
 </script>
 
