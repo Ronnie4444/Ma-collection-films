@@ -70,7 +70,9 @@
 
     .login-box,
     .owner-panel,
-    .filters {
+    .filters,
+    .stats-panel,
+    .random-panel {
       background: #1c1c1c;
       border: 1px solid #333;
       border-radius: 12px;
@@ -79,19 +81,23 @@
     }
 
     .login-box h2,
-    .owner-panel h2 {
+    .owner-panel h2,
+    .stats-panel h2,
+    .random-panel h2 {
       margin-top: 0;
     }
 
     input,
     select,
-    button {
+    button,
+    textarea {
       font-family: inherit;
       font-size: 15px;
     }
 
     input,
-    select {
+    select,
+    textarea {
       width: 100%;
       padding: 11px;
       border-radius: 8px;
@@ -99,6 +105,11 @@
       background: #111;
       color: #fff;
       margin-top: 6px;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
     }
 
     button {
@@ -144,6 +155,16 @@
       color: white;
     }
 
+    .btn-favorite {
+      background: #8e44ad;
+      color: white;
+    }
+
+    .btn-transfer {
+      background: #168a45;
+      color: white;
+    }
+
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -171,6 +192,26 @@
       padding: 8px;
     }
 
+    .checkbox-row {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: normal;
+    }
+
+    .checkbox-item input {
+      width: auto;
+      margin: 0;
+    }
+
     .owner-status {
       background: #123b1f;
       border: 1px solid #246b38;
@@ -186,6 +227,20 @@
       gap: 12px;
     }
 
+    .advanced-filters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .filter-title {
+      color: #aaa;
+      font-size: 13px;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
     .collection-info {
       display: flex;
       justify-content: space-between;
@@ -198,10 +253,6 @@
     .collection-count {
       color: #bbb;
     }
-
-    /* =========================================================
-       GRILLE DES FILMS
-       ========================================================= */
 
     .films-grid {
       display: grid;
@@ -216,6 +267,7 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     .film-cover {
@@ -237,6 +289,26 @@
       padding: 20px;
     }
 
+    .favorite-badge {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      background: rgba(0,0,0,0.75);
+      border-radius: 20px;
+      padding: 5px 8px;
+      font-size: 16px;
+    }
+
+    .watched-badge {
+      position: absolute;
+      top: 7px;
+      left: 7px;
+      background: rgba(0,0,0,0.75);
+      border-radius: 20px;
+      padding: 5px 8px;
+      font-size: 14px;
+    }
+
     .film-info {
       padding: 10px;
       flex: 1;
@@ -255,17 +327,104 @@
       line-height: 1.5;
     }
 
+    .film-rating {
+      margin-top: 6px;
+      color: #ffd700;
+      font-size: 13px;
+    }
+
+    .film-notes {
+      margin-top: 7px;
+      color: #bbb;
+      font-size: 11px;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
     .film-actions {
       padding: 0 10px 10px;
       display: flex;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .film-actions button {
       flex: 1;
+      min-width: 70px;
       margin-top: 0;
       font-size: 11px;
       padding: 8px 5px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .stat-box {
+      background: #252525;
+      border: 1px solid #333;
+      border-radius: 9px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-number {
+      display: block;
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .stat-label {
+      display: block;
+      color: #aaa;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .random-result {
+      display: none;
+      margin-top: 15px;
+      background: #252525;
+      border-radius: 10px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .random-result img {
+      max-width: 150px;
+      max-height: 220px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .random-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .alphabet {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 12px;
+    }
+
+    .letter-button {
+      margin: 0;
+      padding: 7px 10px;
+      background: #333;
+      color: #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .letter-button.active {
+      background: #e50914;
+      color: white;
     }
 
     .hidden {
@@ -297,10 +456,21 @@
       color: #6faeff;
     }
 
+    @media (max-width: 900px) {
+      .advanced-filters {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 700px) {
 
       .form-grid,
-      .filters-grid {
+      .filters-grid,
+      .advanced-filters {
         grid-template-columns: 1fr;
       }
 
@@ -336,6 +506,10 @@
       .films-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
     }
@@ -493,7 +667,95 @@
         </label>
       </div>
 
+      <div>
+        <label>
+          ⭐ Ma note
+          <select id="rating">
+            <option value="">-- Pas de note --</option>
+            <option value="1">⭐ 1 / 5</option>
+            <option value="2">⭐⭐ 2 / 5</option>
+            <option value="3">⭐⭐⭐ 3 / 5</option>
+            <option value="4">⭐⭐⭐⭐ 4 / 5</option>
+            <option value="5">⭐⭐⭐⭐⭐ 5 / 5</option>
+          </select>
+        </label>
+      </div>
+
       <div class="form-full">
+
+        <div class="checkbox-row">
+
+          <label class="checkbox-item">
+            <input
+              type="checkbox"
+              id="favorite"
+            >
+            ⭐ Ajouter aux favoris
+          </label>
+
+          <label class="checkbox-item">
+            <input
+              type="checkbox"
+              id="watched"
+            >
+            👀 Film déjà vu
+          </label>
+
+        </div>
+
+      </div>
+
+      <div
+        id="wishlistExtraFields"
+        class="form-full hidden"
+      >
+
+        <div class="form-grid">
+
+          <div>
+            <label>
+              🔥 Priorité
+              <select id="priority">
+                <option value="Basse">🟢 Basse</option>
+                <option value="Moyenne" selected>🟡 Moyenne</option>
+                <option value="Haute">🔴 Haute</option>
+              </select>
+            </label>
+          </div>
+
+          <div>
+            <label>
+              💰 Prix maximum souhaité
+              <input
+                type="number"
+                id="maxPrice"
+                min="0"
+                step="0.01"
+                placeholder="Exemple : 20"
+              >
+            </label>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="form-full">
+
+        <label>
+          📝 Notes personnelles
+
+          <textarea
+            id="notes"
+            placeholder="Mes impressions, édition recherchée, remarque..."
+          ></textarea>
+
+        </label>
+
+      </div>
+
+      <div class="form-full">
+
         <label>
           📷 Jaquette du film
 
@@ -509,7 +771,9 @@
             Tu peux prendre une photo, choisir une image dans ta galerie
             ou sélectionner un fichier.
           </div>
+
         </label>
+
       </div>
 
     </div>
@@ -549,8 +813,9 @@
     <div class="filters-grid">
 
       <div>
-        <label id="searchLabel">
-          🔎 Rechercher dans ma collection
+        <label>
+          🔎 Rechercher
+
           <input
             type="text"
             id="searchCollection"
@@ -565,6 +830,7 @@
             oninput="displayFilms()"
             style="display:none;"
           >
+
         </label>
       </div>
 
@@ -614,6 +880,116 @@
       </div>
 
     </div>
+
+
+    <div class="filter-title">
+      🔎 Filtres supplémentaires
+    </div>
+
+    <div class="advanced-filters">
+
+      <div>
+        <label>
+          🎭 Genre
+          <select
+            id="genreFilter"
+            onchange="displayFilms()"
+          >
+            <option value="">Tous les genres</option>
+          </select>
+        </label>
+      </div>
+
+      <div>
+        <label>
+          🎬 Réalisateur
+          <select
+            id="directorFilter"
+            onchange="displayFilms()"
+          >
+            <option value="">Tous les réalisateurs</option>
+          </select>
+        </label>
+      </div>
+
+      <div>
+        <label>
+          👀 Visionnage
+          <select
+            id="watchedFilter"
+            onchange="displayFilms()"
+          >
+            <option value="">Tous</option>
+            <option value="watched">Déjà vus</option>
+            <option value="unwatched">Pas encore vus</option>
+          </select>
+        </label>
+      </div>
+
+      <div>
+        <label>
+          ⭐ Favoris
+          <select
+            id="favoriteFilter"
+            onchange="displayFilms()"
+          >
+            <option value="">Tous</option>
+            <option value="favorite">Mes favoris</option>
+            <option value="notfavorite">Pas favoris</option>
+          </select>
+        </label>
+      </div>
+
+    </div>
+
+
+    <div class="filter-title">
+      🔤 Naviguer par lettre
+    </div>
+
+    <div
+      id="alphabet"
+      class="alphabet"
+    ></div>
+
+  </div>
+
+
+  <!-- STATISTIQUES -->
+
+  <div class="stats-panel">
+
+    <h2>📊 Statistiques</h2>
+
+    <div
+      id="statsGrid"
+      class="stats-grid"
+    ></div>
+
+  </div>
+
+
+  <!-- FILM AU HASARD -->
+
+  <div class="random-panel">
+
+    <h2>🎲 Un film au hasard</h2>
+
+    <p style="color:#aaa;">
+      Besoin d'une idée pour ce soir ?
+    </p>
+
+    <button
+      class="btn-primary"
+      onclick="randomFilm()"
+    >
+      🎲 Choisir un film au hasard
+    </button>
+
+    <div
+      id="randomResult"
+      class="random-result"
+    ></div>
 
   </div>
 
@@ -704,6 +1080,7 @@
   let currentUser = null;
   let editingFilmId = null;
   let currentTab = "collection";
+  let currentLetter = "";
 
 
   /* =========================================================
@@ -713,6 +1090,8 @@
   document.addEventListener(
     "DOMContentLoaded",
     async function() {
+
+      buildAlphabet();
 
       const {
         data: {
@@ -724,6 +1103,8 @@
         currentUser = session.user;
         showOwnerMode();
       }
+
+      updateFormMode();
 
       await loadAll();
 
@@ -740,6 +1121,7 @@
     await loadFilms();
     await loadWishlist();
 
+    updateFilterOptions();
     displayFilms();
 
   }
@@ -833,9 +1215,11 @@
 
     currentTab = tab;
     editingFilmId = null;
+    currentLetter = "";
 
     clearForm();
     updateFormMode();
+    buildAlphabet();
 
     const formMessage =
       document.getElementById("formMessage");
@@ -1082,6 +1466,166 @@
 
 
   /* =========================================================
+     ALPHABET
+     ========================================================= */
+
+  function buildAlphabet() {
+
+    const alphabet =
+      document.getElementById("alphabet");
+
+    if (!alphabet) {
+      return;
+    }
+
+    const letters = [
+      "#",
+      "A","B","C","D","E","F","G","H","I","J","K","L","M",
+      "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+    ];
+
+    alphabet.innerHTML = "";
+
+    const allButton =
+      document.createElement("button");
+
+    allButton.className =
+      "letter-button" +
+      (currentLetter === "" ? " active" : "");
+
+    allButton.textContent = "Tous";
+
+    allButton.onclick =
+      function() {
+
+        currentLetter = "";
+        buildAlphabet();
+        displayFilms();
+
+      };
+
+    alphabet.appendChild(allButton);
+
+    letters.forEach(
+      function(letter) {
+
+        const button =
+          document.createElement("button");
+
+        button.className =
+          "letter-button" +
+          (
+            currentLetter === letter
+              ? " active"
+              : ""
+          );
+
+        button.textContent = letter;
+
+        button.onclick =
+          function() {
+
+            currentLetter = letter;
+            buildAlphabet();
+            displayFilms();
+
+          };
+
+        alphabet.appendChild(button);
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     FILTRES DYNAMIQUES
+     ========================================================= */
+
+  function updateFilterOptions() {
+
+    const source =
+      currentTab === "collection"
+        ? films
+        : wishlist;
+
+    const genreSelect =
+      document.getElementById("genreFilter");
+
+    const directorSelect =
+      document.getElementById("directorFilter");
+
+    if (!genreSelect || !directorSelect) {
+      return;
+    }
+
+    const currentGenre =
+      genreSelect.value;
+
+    const currentDirector =
+      directorSelect.value;
+
+    const genres =
+      [...new Set(
+        source
+          .map(film => film.genre)
+          .filter(Boolean)
+          .map(value => String(value).trim())
+          .filter(Boolean)
+      )].sort(
+        new Intl.Collator("fr", {
+          sensitivity: "base"
+        }).compare
+      );
+
+    const directors =
+      [...new Set(
+        source
+          .map(film => film.director)
+          .filter(Boolean)
+          .map(value => String(value).trim())
+          .filter(Boolean)
+      )].sort(
+        new Intl.Collator("fr", {
+          sensitivity: "base"
+        }).compare
+      );
+
+    genreSelect.innerHTML =
+      '<option value="">Tous les genres</option>' +
+      genres
+        .map(
+          value =>
+            `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`
+        )
+        .join("");
+
+    directorSelect.innerHTML =
+      '<option value="">Tous les réalisateurs</option>' +
+      directors
+        .map(
+          value =>
+            `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`
+        )
+        .join("");
+
+    if (
+      genres.includes(currentGenre)
+    ) {
+      genreSelect.value = currentGenre;
+    }
+
+    if (
+      directors.includes(currentDirector)
+    ) {
+      directorSelect.value = currentDirector;
+    }
+
+  }
+
+
+  /* =========================================================
      AFFICHAGE
      ========================================================= */
 
@@ -1098,6 +1642,18 @@
 
     const vfElement =
       document.getElementById("vfFilter");
+
+    const genreElement =
+      document.getElementById("genreFilter");
+
+    const directorElement =
+      document.getElementById("directorFilter");
+
+    const watchedElement =
+      document.getElementById("watchedFilter");
+
+    const favoriteElement =
+      document.getElementById("favoriteFilter");
 
     const grid =
       document.getElementById("filmsGrid");
@@ -1132,6 +1688,26 @@
         ? vfElement.value
         : "";
 
+    const genreFilter =
+      genreElement
+        ? genreElement.value
+        : "";
+
+    const directorFilter =
+      directorElement
+        ? directorElement.value
+        : "";
+
+    const watchedFilter =
+      watchedElement
+        ? watchedElement.value
+        : "";
+
+    const favoriteFilter =
+      favoriteElement
+        ? favoriteElement.value
+        : "";
+
     const source =
       currentTab === "collection"
         ? films
@@ -1148,7 +1724,8 @@
               film.director,
               film.genre,
               film.format,
-              film.vf
+              film.vf,
+              film.notes
             ]
             .filter(Boolean)
             .join(" ")
@@ -1166,10 +1743,64 @@
             !vfFilter ||
             film.vf === vfFilter;
 
+          const matchesGenre =
+            !genreFilter ||
+            film.genre === genreFilter;
+
+          const matchesDirector =
+            !directorFilter ||
+            film.director === directorFilter;
+
+          const matchesWatched =
+            !watchedFilter ||
+            (
+              watchedFilter === "watched"
+                ? film.watched === true
+                : film.watched !== true
+            );
+
+          const matchesFavorite =
+            !favoriteFilter ||
+            (
+              favoriteFilter === "favorite"
+                ? film.favorite === true
+                : film.favorite !== true
+            );
+
+          let matchesLetter = true;
+
+          if (currentLetter) {
+
+            const first =
+              (film.title || "")
+                .trim()
+                .charAt(0)
+                .toUpperCase();
+
+            if (currentLetter === "#") {
+
+              matchesLetter =
+                /^[0-9]/.test(first);
+
+            }
+            else {
+
+              matchesLetter =
+                first === currentLetter;
+
+            }
+
+          }
+
           return (
             matchesSearch &&
             matchesFormat &&
-            matchesVF
+            matchesVF &&
+            matchesGenre &&
+            matchesDirector &&
+            matchesWatched &&
+            matchesFavorite &&
+            matchesLetter
           );
 
         }
@@ -1199,6 +1830,8 @@
 
     }
 
+    updateStats();
+
     if (filteredFilms.length === 0) {
 
       grid.innerHTML =
@@ -1216,6 +1849,131 @@
           film => createFilmCard(film)
         )
         .join("");
+
+  }
+
+
+  /* =========================================================
+     STATISTIQUES
+     ========================================================= */
+
+  function updateStats() {
+
+    const statsGrid =
+      document.getElementById("statsGrid");
+
+    if (!statsGrid) {
+      return;
+    }
+
+    const source =
+      currentTab === "collection"
+        ? films
+        : wishlist;
+
+    const total =
+      source.length;
+
+    const dvd =
+      source.filter(
+        film => film.format === "DVD"
+      ).length;
+
+    const bluray =
+      source.filter(
+        film => film.format === "Blu-ray"
+      ).length;
+
+    const fourK =
+      source.filter(
+        film => film.format === "4K UHD"
+      ).length;
+
+    const vhs =
+      source.filter(
+        film => film.format === "VHS"
+      ).length;
+
+    const vf =
+      source.filter(
+        film => film.vf === "Oui"
+      ).length;
+
+    const watched =
+      source.filter(
+        film => film.watched === true
+      ).length;
+
+    const favorites =
+      source.filter(
+        film => film.favorite === true
+      ).length;
+
+    if (currentTab === "collection") {
+
+      statsGrid.innerHTML = `
+        ${statBox(total, "🎬 Total")}
+        ${statBox(dvd, "💿 DVD")}
+        ${statBox(bluray, "🔵 Blu-ray")}
+        ${statBox(fourK, "🟣 4K UHD")}
+        ${statBox(vhs, "📼 VHS")}
+        ${statBox(vf, "🇫🇷 Avec VF")}
+        ${statBox(watched, "👀 Déjà vus")}
+        ${statBox(favorites, "⭐ Favoris")}
+      `;
+
+    }
+    else {
+
+      const highPriority =
+        source.filter(
+          film => film.priority === "Haute"
+        ).length;
+
+      const maxPriceTotal =
+        source.reduce(
+          function(total, film) {
+
+            return total +
+              (
+                Number(film.max_price) || 0
+              );
+
+          },
+          0
+        );
+
+      statsGrid.innerHTML = `
+        ${statBox(total, "❤️ Total")}
+        ${statBox(highPriority, "🔴 Priorité haute")}
+        ${statBox(watched, "👀 Déjà vus")}
+        ${statBox(favorites, "⭐ Favoris")}
+        ${statBox(dvd, "💿 DVD")}
+        ${statBox(bluray, "🔵 Blu-ray")}
+        ${statBox(vf, "🇫🇷 Avec VF")}
+        ${statBox(maxPriceTotal.toFixed(2) + " €", "💰 Prix max cumulés")}
+      `;
+
+    }
+
+  }
+
+
+  function statBox(
+    number,
+    label
+  ) {
+
+    return `
+      <div class="stat-box">
+        <span class="stat-number">
+          ${escapeHTML(String(number))}
+        </span>
+        <span class="stat-label">
+          ${escapeHTML(label)}
+        </span>
+      </div>
+    `;
 
   }
 
@@ -1255,6 +2013,28 @@
         <div class="no-cover">
           🖼️<br>
           Pas de jaquette
+        </div>
+      `;
+
+    }
+
+    let badges = "";
+
+    if (film.favorite) {
+
+      badges += `
+        <div class="favorite-badge">
+          ⭐
+        </div>
+      `;
+
+    }
+
+    if (film.watched) {
+
+      badges += `
+        <div class="watched-badge">
+          👀
         </div>
       `;
 
@@ -1302,7 +2082,58 @@
 
       meta +=
         "🇫🇷 VF : " +
-        escapeHTML(film.vf);
+        escapeHTML(film.vf) +
+        "<br>";
+
+    }
+
+    if (
+      currentTab === "wishlist" &&
+      film.priority
+    ) {
+
+      meta +=
+        "🔥 Priorité : " +
+        escapeHTML(film.priority) +
+        "<br>";
+
+    }
+
+    if (
+      currentTab === "wishlist" &&
+      film.max_price !== null &&
+      film.max_price !== undefined &&
+      film.max_price !== ""
+    ) {
+
+      meta +=
+        "💰 Max : " +
+        escapeHTML(String(film.max_price)) +
+        " €<br>";
+
+    }
+
+    let ratingHTML = "";
+
+    if (film.rating) {
+
+      ratingHTML = `
+        <div class="film-rating">
+          ${"⭐".repeat(Number(film.rating))}
+        </div>
+      `;
+
+    }
+
+    let notesHTML = "";
+
+    if (film.notes) {
+
+      notesHTML = `
+        <div class="film-notes">
+          📝 ${escapeHTML(film.notes)}
+        </div>
+      `;
 
     }
 
@@ -1310,8 +2141,25 @@
 
     if (currentUser) {
 
+      let transferButton = "";
+
+      if (currentTab === "wishlist") {
+
+        transferButton = `
+          <button
+            class="btn-transfer"
+            onclick="transferToCollection('${escapeHTML(String(film.id))}')"
+          >
+            ➕ Collection
+          </button>
+        `;
+
+      }
+
       actions = `
         <div class="film-actions">
+
+          ${transferButton}
 
           <button
             class="btn-edit"
@@ -1335,6 +2183,8 @@
     return `
       <div class="film-card">
 
+        ${badges}
+
         ${coverHTML}
 
         <div class="film-info">
@@ -1346,6 +2196,10 @@
           <div class="film-meta">
             ${meta}
           </div>
+
+          ${ratingHTML}
+
+          ${notesHTML}
 
         </div>
 
@@ -1391,6 +2245,24 @@
     const vfElement =
       document.getElementById("vf");
 
+    const ratingElement =
+      document.getElementById("rating");
+
+    const favoriteElement =
+      document.getElementById("favorite");
+
+    const watchedElement =
+      document.getElementById("watched");
+
+    const notesElement =
+      document.getElementById("notes");
+
+    const priorityElement =
+      document.getElementById("priority");
+
+    const maxPriceElement =
+      document.getElementById("maxPrice");
+
     const coverElement =
       document.getElementById("coverFile");
 
@@ -1432,6 +2304,16 @@
         ? yearElement.value.trim()
         : "";
 
+    const ratingValue =
+      ratingElement
+        ? ratingElement.value
+        : "";
+
+    const maxPriceValue =
+      maxPriceElement
+        ? maxPriceElement.value.trim()
+        : "";
+
     const filmData = {
 
       title: title,
@@ -1459,9 +2341,43 @@
       vf:
         vfElement
           ? vfElement.value || null
+          : null,
+
+      favorite:
+        favoriteElement
+          ? favoriteElement.checked
+          : false,
+
+      watched:
+        watchedElement
+          ? watchedElement.checked
+          : false,
+
+      rating:
+        ratingValue
+          ? Number(ratingValue)
+          : null,
+
+      notes:
+        notesElement
+          ? notesElement.value.trim() || null
           : null
 
     };
+
+    if (currentTab === "wishlist") {
+
+      filmData.priority =
+        priorityElement
+          ? priorityElement.value || "Moyenne"
+          : "Moyenne";
+
+      filmData.max_price =
+        maxPriceValue
+          ? Number(maxPriceValue)
+          : null;
+
+    }
 
     const coverFile =
       coverElement &&
@@ -1559,6 +2475,7 @@
 
       }
 
+      updateFilterOptions();
       displayFilms();
 
     }
@@ -1572,9 +2489,11 @@
       showMessage(
         message,
         "❌ Erreur : " +
-        (error && error.message
-          ? error.message
-          : String(error)),
+        (
+          error && error.message
+            ? error.message
+            : String(error)
+        ),
         "error"
       );
 
@@ -1636,6 +2555,24 @@
     document.getElementById("vf").value =
       film.vf || "";
 
+    document.getElementById("rating").value =
+      film.rating || "";
+
+    document.getElementById("favorite").checked =
+      film.favorite === true;
+
+    document.getElementById("watched").checked =
+      film.watched === true;
+
+    document.getElementById("notes").value =
+      film.notes || "";
+
+    document.getElementById("priority").value =
+      film.priority || "Moyenne";
+
+    document.getElementById("maxPrice").value =
+      film.max_price || "";
+
     document.getElementById("coverFile").value =
       "";
 
@@ -1662,8 +2599,20 @@
     const cancelButton =
       document.getElementById("cancelEditButton");
 
+    const wishlistExtraFields =
+      document.getElementById("wishlistExtraFields");
+
     if (!title || !saveButton || !cancelButton) {
       return;
+    }
+
+    if (wishlistExtraFields) {
+
+      wishlistExtraFields.classList.toggle(
+        "hidden",
+        currentTab !== "wishlist"
+      );
+
     }
 
     if (editingFilmId) {
@@ -1710,6 +2659,122 @@
 
       message.className = "message";
       message.textContent = "";
+
+    }
+
+  }
+
+
+  /* =========================================================
+     TRANSFERT WISHLIST → COLLECTION
+     ========================================================= */
+
+  async function transferToCollection(id) {
+
+    if (!currentUser) {
+      return;
+    }
+
+    const film =
+      wishlist.find(
+        item =>
+          String(item.id) === String(id)
+      );
+
+    if (!film) {
+      return;
+    }
+
+    const confirmation =
+      confirm(
+        'Ajouter "' +
+        film.title +
+        '" à ma collection et le retirer de ma wishlist ?'
+      );
+
+    if (!confirmation) {
+      return;
+    }
+
+    try {
+
+      const collectionFilm = {
+
+        title:
+          film.title || "",
+
+        year:
+          film.year || null,
+
+        director:
+          film.director || null,
+
+        genre:
+          film.genre || null,
+
+        format:
+          film.format || null,
+
+        vf:
+          film.vf || null,
+
+        cover:
+          film.cover || null,
+
+        favorite:
+          film.favorite === true,
+
+        watched:
+          film.watched === true,
+
+        rating:
+          film.rating || null,
+
+        notes:
+          film.notes || null
+
+      };
+
+      const {
+        error: insertError
+      } = await supabaseClient
+        .from("Films")
+        .insert([collectionFilm]);
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      const {
+        error: deleteError
+      } = await supabaseClient
+        .from("Wishlist")
+        .delete()
+        .eq("id", id);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+
+      await loadFilms();
+      await loadWishlist();
+
+      alert(
+        "✅ Film ajouté à la collection !"
+      );
+
+      updateFilterOptions();
+      displayFilms();
+
+    }
+    catch (error) {
+
+      console.error(error);
+
+      alert(
+        "❌ Erreur lors du transfert : " +
+        error.message
+      );
 
     }
 
@@ -1870,7 +2935,77 @@
 
     }
 
+    updateFilterOptions();
     displayFilms();
+
+  }
+
+
+  /* =========================================================
+     FILM AU HASARD
+     ========================================================= */
+
+  function randomFilm() {
+
+    const source =
+      currentTab === "collection"
+        ? films
+        : wishlist;
+
+    if (!source.length) {
+
+      alert(
+        "Il n'y a aucun film à choisir."
+      );
+
+      return;
+
+    }
+
+    const index =
+      Math.floor(
+        Math.random() * source.length
+      );
+
+    const film =
+      source[index];
+
+    const result =
+      document.getElementById("randomResult");
+
+    if (!result) {
+      return;
+    }
+
+    let cover = "";
+
+    if (film.cover) {
+
+      cover = `
+        <img
+          src="${escapeHTML(film.cover)}"
+          alt="${escapeHTML(film.title || "")}"
+        >
+      `;
+
+    }
+
+    result.innerHTML = `
+
+      ${cover}
+
+      <div class="random-title">
+        ${escapeHTML(film.title || "Sans titre")}
+      </div>
+
+      <div style="color:#aaa;margin-top:6px;">
+        ${film.year ? escapeHTML(String(film.year)) : ""}
+        ${film.format ? " • " + escapeHTML(film.format) : ""}
+      </div>
+
+    `;
+
+    result.style.display = "block";
 
   }
 
@@ -1888,6 +3023,10 @@
       "genre",
       "format",
       "vf",
+      "rating",
+      "notes",
+      "priority",
+      "maxPrice",
       "coverFile"
     ];
 
@@ -1903,6 +3042,27 @@
 
       }
     );
+
+    const favorite =
+      document.getElementById("favorite");
+
+    const watched =
+      document.getElementById("watched");
+
+    if (favorite) {
+      favorite.checked = false;
+    }
+
+    if (watched) {
+      watched.checked = false;
+    }
+
+    const priority =
+      document.getElementById("priority");
+
+    if (priority) {
+      priority.value = "Moyenne";
+    }
 
   }
 
@@ -1925,19 +3085,24 @@
     const vf =
       document.getElementById("vfFilter");
 
-    if (currentTab === "collection") {
+    const genre =
+      document.getElementById("genreFilter");
 
-      if (collectionSearch) {
-        collectionSearch.value = "";
-      }
+    const director =
+      document.getElementById("directorFilter");
 
+    const watched =
+      document.getElementById("watchedFilter");
+
+    const favorite =
+      document.getElementById("favoriteFilter");
+
+    if (collectionSearch) {
+      collectionSearch.value = "";
     }
-    else {
 
-      if (wishlistSearch) {
-        wishlistSearch.value = "";
-      }
-
+    if (wishlistSearch) {
+      wishlistSearch.value = "";
     }
 
     if (format) {
@@ -1948,6 +3113,25 @@
       vf.value = "";
     }
 
+    if (genre) {
+      genre.value = "";
+    }
+
+    if (director) {
+      director.value = "";
+    }
+
+    if (watched) {
+      watched.value = "";
+    }
+
+    if (favorite) {
+      favorite.value = "";
+    }
+
+    currentLetter = "";
+
+    buildAlphabet();
     displayFilms();
 
   }
@@ -2053,7 +3237,7 @@
 
       }
 
-      const clean =
+      const cleanCollection =
         function(list) {
 
           return list.map(
@@ -2080,7 +3264,73 @@
                   film.vf || null,
 
                 cover:
-                  film.cover || null
+                  film.cover || null,
+
+                favorite:
+                  film.favorite === true,
+
+                watched:
+                  film.watched === true,
+
+                rating:
+                  film.rating || null,
+
+                notes:
+                  film.notes || null
+
+              };
+
+            }
+          );
+
+        };
+
+      const cleanWishlist =
+        function(list) {
+
+          return list.map(
+            function(film) {
+
+              return {
+
+                title:
+                  film.title || "",
+
+                year:
+                  film.year || null,
+
+                director:
+                  film.director || null,
+
+                genre:
+                  film.genre || null,
+
+                format:
+                  film.format || null,
+
+                vf:
+                  film.vf || null,
+
+                cover:
+                  film.cover || null,
+
+                favorite:
+                  film.favorite === true,
+
+                watched:
+                  film.watched === true,
+
+                rating:
+                  film.rating || null,
+
+                notes:
+                  film.notes || null,
+
+                priority:
+                  film.priority || "Moyenne",
+
+                max_price:
+                  film.max_price || null
 
               };
 
@@ -2090,10 +3340,10 @@
         };
 
       collectionToImport =
-        clean(collectionToImport);
+        cleanCollection(collectionToImport);
 
       wishlistToImport =
-        clean(wishlistToImport);
+        cleanWishlist(wishlistToImport);
 
       const total =
         collectionToImport.length +
